@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\Mime\Part\DataPart;
 
+/**
+ * @internal
+ */
 trait DefaultBuilderTrait
 {
     private readonly GotenbergClientInterface $client;

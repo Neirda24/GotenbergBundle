@@ -19,6 +19,9 @@ use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File as DataPartFile;
 use Twig\Environment;
 
+/**
+ * @internal
+ */
 abstract class AbstractChromiumPdfBuilder extends AbstractPdfBuilder
 {
     use CookieAwareTrait;

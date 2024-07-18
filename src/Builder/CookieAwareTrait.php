@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mime\Part\DataPart;
 
+/**
+ * @internal
+ */
 trait CookieAwareTrait
 {
     /**

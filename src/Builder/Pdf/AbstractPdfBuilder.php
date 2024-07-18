@@ -6,6 +6,9 @@ use Sensiolabs\GotenbergBundle\Builder\DefaultBuilderTrait;
 use Sensiolabs\GotenbergBundle\Client\GotenbergClientInterface;
 use Sensiolabs\GotenbergBundle\Formatter\AssetBaseDirFormatter;
 
+/**
+ * @internal
+ */
 abstract class AbstractPdfBuilder implements PdfBuilderInterface
 {
     use DefaultBuilderTrait;

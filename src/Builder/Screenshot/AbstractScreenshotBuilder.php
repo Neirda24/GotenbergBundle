@@ -8,6 +8,9 @@ use Sensiolabs\GotenbergBundle\Enumeration\Part;
 use Sensiolabs\GotenbergBundle\Formatter\AssetBaseDirFormatter;
 use Symfony\Component\Mime\Part\DataPart;
 
+/**
+ * @internal
+ */
 abstract class AbstractScreenshotBuilder implements ScreenshotBuilderInterface
 {
     use DefaultBuilderTrait;
