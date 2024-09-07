@@ -106,9 +106,9 @@ final class GotenbergDataCollector extends DataCollector implements LateDataColl
                         ];
                     }, $request['calls']),
                 ];
-            }
 
-            $this->data['request_count'] += \count($builder->getFiles());
+                ++$this->data['request_count'];
+            }
         }
     }
 
