@@ -15,8 +15,6 @@ use Symfony\Contracts\HttpClient\ChunkInterface;
 class GotenbergFileResult
 {
     /**
-     * @phpstan-self-out self<T>
-     *
      * @param \Generator<int, void, ChunkInterface, T> $processorGenerator
      */
     public function __construct(

@@ -83,7 +83,7 @@ trait DefaultBuilderTrait
     /**
      * @template TProcessor of mixed
      *
-     * @phpstan-this-out self<TProcessor>
+     * @phpstan-this-out static<TProcessor>
      *
      * @phpstan-assert ProcessorInterface<TProcessor> $this->processor
      *
