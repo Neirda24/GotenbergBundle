@@ -6,6 +6,10 @@ use Sensiolabs\GotenbergBundle\Enumeration\Part;
 use Sensiolabs\GotenbergBundle\Exception\MissingRequiredFieldException;
 use Sensiolabs\GotenbergBundle\Exception\PdfPartRenderingException;
 
+/**
+ * @template T of mixed
+ * @extends AbstractChromiumPdfBuilder<T>
+ */
 final class HtmlPdfBuilder extends AbstractChromiumPdfBuilder
 {
     private const ENDPOINT = '/forms/chromium/convert/html';
@@ -13,6 +17,8 @@ final class HtmlPdfBuilder extends AbstractChromiumPdfBuilder
     /**
      * @param string               $template #Template
      * @param array<string, mixed> $context
+     *
+     * @return $this
      *
      * @throws PdfPartRenderingException if the template could not be rendered
      */
@@ -23,6 +29,8 @@ final class HtmlPdfBuilder extends AbstractChromiumPdfBuilder
 
     /**
      * The HTML file to convert into PDF.
+     *
+     * @return $this
      */
     public function contentFile(string $path): self
     {

@@ -9,10 +9,15 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Contracts\HttpClient\ChunkInterface;
 
+/**
+ * @template T of mixed
+ */
 class GotenbergFileResult
 {
     /**
-     * @param \Generator<int, void, ChunkInterface, mixed> $processorGenerator
+     * @phpstan-self-out self<T>
+     *
+     * @param \Generator<int, void, ChunkInterface, T> $processorGenerator
      */
     public function __construct(
         protected readonly GotenbergResponse $response,
@@ -45,6 +50,9 @@ class GotenbergFileResult
         return $this->response->getContentLength();
     }
 
+    /**
+     * @return T
+     */
     public function process(): mixed
     {
         if (!$this->response->getStream()->valid()) {

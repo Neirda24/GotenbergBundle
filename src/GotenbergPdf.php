@@ -27,13 +27,13 @@ final class GotenbergPdf implements GotenbergPdfInterface
      * @param 'html'|'url'|'markdown'|'office'|'merge'|'convert' $key
      *
      * @return (
-     *   $key is 'html' ? HtmlPdfBuilder :
-     *   $key is 'url' ? UrlPdfBuilder :
-     *   $key is 'markdown' ? MarkdownPdfBuilder :
-     *   $key is 'office' ? LibreOfficePdfBuilder :
-     *   $key is 'merge' ? MergePdfBuilder :
-     *   $key is 'convert' ? ConvertPdfBuilder :
-     *   PdfBuilderInterface
+     *   $key is 'html' ? HtmlPdfBuilder<mixed> :
+     *   $key is 'url' ? UrlPdfBuilder<mixed> :
+     *   $key is 'markdown' ? MarkdownPdfBuilder<mixed> :
+     *   $key is 'office' ? LibreOfficePdfBuilder<mixed> :
+     *   $key is 'merge' ? MergePdfBuilder<mixed> :
+     *   $key is 'convert' ? ConvertPdfBuilder<mixed> :
+     *   PdfBuilderInterface<mixed>
      * )
      */
     private function getInternal(string $key): PdfBuilderInterface

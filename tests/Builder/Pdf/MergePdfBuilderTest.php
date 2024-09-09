@@ -83,6 +83,9 @@ final class MergePdfBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return MergePdfBuilder<null>
+     */
     private function getMergePdfBuilder(): MergePdfBuilder
     {
         return (new MergePdfBuilder($this->gotenbergClient, self::$assetBaseDirFormatter))

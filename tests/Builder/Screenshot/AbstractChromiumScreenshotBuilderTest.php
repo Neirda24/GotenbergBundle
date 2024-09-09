@@ -83,6 +83,9 @@ class AbstractChromiumScreenshotBuilderTest extends AbstractBuilderTestCase
         self::assertEquals($expected, $builder->getMultipartFormData()[0]);
     }
 
+    /**
+     * @return AbstractChromiumScreenshotBuilder<null>
+     */
     private function getChromiumScreenshotBuilder(bool $twig = true): AbstractChromiumScreenshotBuilder
     {
         return new class($this->gotenbergClient, self::$assetBaseDirFormatter, new RequestStack(), true === $twig ? self::$twig : null) extends AbstractChromiumScreenshotBuilder {

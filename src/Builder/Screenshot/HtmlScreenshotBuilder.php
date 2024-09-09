@@ -6,6 +6,10 @@ use Sensiolabs\GotenbergBundle\Enumeration\Part;
 use Sensiolabs\GotenbergBundle\Exception\MissingRequiredFieldException;
 use Sensiolabs\GotenbergBundle\Exception\ScreenshotPartRenderingException;
 
+/**
+ * @template T of mixed
+ * @extends AbstractChromiumScreenshotBuilder<T>
+ */
 final class HtmlScreenshotBuilder extends AbstractChromiumScreenshotBuilder
 {
     private const ENDPOINT = '/forms/chromium/screenshot/html';
@@ -13,6 +17,8 @@ final class HtmlScreenshotBuilder extends AbstractChromiumScreenshotBuilder
     /**
      * @param string               $template #Template
      * @param array<string, mixed> $context
+     *
+     * @return $this
      *
      * @throws ScreenshotPartRenderingException if the template could not be rendered
      */
@@ -23,6 +29,8 @@ final class HtmlScreenshotBuilder extends AbstractChromiumScreenshotBuilder
 
     /**
      * The HTML file to convert into Screenshot.
+     *
+     * @return $this
      */
     public function contentFile(string $path): self
     {

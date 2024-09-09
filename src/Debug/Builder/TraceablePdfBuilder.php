@@ -6,15 +6,19 @@ use Sensiolabs\GotenbergBundle\Builder\GotenbergFileResult;
 use Sensiolabs\GotenbergBundle\Builder\Pdf\PdfBuilderInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
+/**
+ * @template T
+ * @implements PdfBuilderInterface<T>
+ */
 final class TraceablePdfBuilder implements PdfBuilderInterface
 {
     /**
-     * @var list<array{'time': float|null, 'memory': int|null, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'method': string, 'class': class-string<PdfBuilderInterface>, 'arguments': array<mixed>}>}>
+     * @var list<array{'time': float|null, 'memory': int|null, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'method': string, 'class': class-string<PdfBuilderInterface<mixed>>, 'arguments': array<mixed>}>}>
      */
     private array $pdfs = [];
 
     /**
-     * @var list<array{'class': class-string<PdfBuilderInterface>, 'method': string, 'arguments': array<mixed>}>
+     * @var list<array{'class': class-string<PdfBuilderInterface<mixed>>, 'method': string, 'arguments': array<mixed>}>
      */
     private array $calls = [];
 
@@ -22,6 +26,9 @@ final class TraceablePdfBuilder implements PdfBuilderInterface
 
     private static int $count = 0;
 
+    /**
+     * @param PdfBuilderInterface<T> $inner
+     */
     public function __construct(
         private readonly PdfBuilderInterface $inner,
         private readonly Stopwatch|null $stopwatch,
@@ -71,13 +78,16 @@ final class TraceablePdfBuilder implements PdfBuilderInterface
     }
 
     /**
-     * @return list<array{'time': float|null, 'memory': int|null, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'class': class-string<PdfBuilderInterface>, 'method': string, 'arguments': array<mixed>}>}>
+     * @return list<array{'time': float|null, 'memory': int|null, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'class': class-string<PdfBuilderInterface<mixed>>, 'method': string, 'arguments': array<mixed>}>}>
      */
     public function getFiles(): array
     {
         return $this->pdfs;
     }
 
+    /**
+     * @return PdfBuilderInterface<T>
+     */
     public function getInner(): PdfBuilderInterface
     {
         return $this->inner;

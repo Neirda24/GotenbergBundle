@@ -66,6 +66,9 @@ final class MarkdownPdfBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return MarkdownPdfBuilder<null>
+     */
     private function getMarkdownPdfBuilder(bool $twig = true): MarkdownPdfBuilder
     {
         return (new MarkdownPdfBuilder($this->gotenbergClient, self::$assetBaseDirFormatter, new RequestStack(), true === $twig ? self::$twig : null))

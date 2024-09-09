@@ -109,6 +109,9 @@ final class HtmlScreenshotBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return HtmlScreenshotBuilder<null>
+     */
     private function getHtmlScreenshotBuilder(bool $twig = true): HtmlScreenshotBuilder
     {
         return (new HtmlScreenshotBuilder($this->gotenbergClient, self::$assetBaseDirFormatter, new RequestStack(), true === $twig ? self::$twig : null))

@@ -109,6 +109,9 @@ final class HtmlPdfBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return HtmlPdfBuilder<null>
+     */
     private function getHtmlPdfBuilder(bool $twig = true): HtmlPdfBuilder
     {
         return (new HtmlPdfBuilder($this->gotenbergClient, self::$assetBaseDirFormatter, new RequestStack(), true === $twig ? self::$twig : null))

@@ -12,8 +12,8 @@ use Symfony\Component\Filesystem\Filesystem;
 final class FileProcessor implements ProcessorInterface
 {
     public function __construct(
-        private readonly Filesystem $filesystem,
         private readonly string $directory,
+        private readonly Filesystem $filesystem = new Filesystem(),
         private readonly LoggerInterface|null $logger = null,
     ) {
     }

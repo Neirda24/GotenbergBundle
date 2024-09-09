@@ -14,6 +14,8 @@ use Symfony\Component\Mime\Part\DataPart;
 
 /**
  * @internal
+ *
+ * @template T of mixed
  */
 trait DefaultBuilderTrait
 {
@@ -79,7 +81,11 @@ trait DefaultBuilderTrait
     }
 
     /**
-     * @param ProcessorInterface<mixed> $processor
+     * @template TProcessor of mixed
+     * @phpstan-this-out self<TProcessor>
+     * @phpstan-assert ProcessorInterface<TProcessor> $this->processor
+     *
+     * @param ProcessorInterface<TProcessor> $processor
      */
     public function processor(ProcessorInterface $processor): static
     {
@@ -211,6 +217,9 @@ trait DefaultBuilderTrait
         ]];
     }
 
+    /**
+     * @return GotenbergFileResult<T|null>
+     */
     public function generate(): GotenbergFileResult
     {
         $this->logger?->debug('Processing file using {sensiolabs_gotenberg.builder} builder.', [

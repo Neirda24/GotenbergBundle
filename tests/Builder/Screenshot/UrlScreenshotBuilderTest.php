@@ -72,6 +72,9 @@ final class UrlScreenshotBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return UrlScreenshotBuilder<null>
+     */
     private function getUrlScreenshotBuilder(bool $twig = true): UrlScreenshotBuilder
     {
         return (new UrlScreenshotBuilder(

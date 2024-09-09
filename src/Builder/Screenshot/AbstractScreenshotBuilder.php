@@ -10,9 +10,13 @@ use Symfony\Component\Mime\Part\DataPart;
 
 /**
  * @internal
+ *
+ * @template T of mixed
+ * @implements ScreenshotBuilderInterface<T>
  */
 abstract class AbstractScreenshotBuilder implements ScreenshotBuilderInterface
 {
+    /** @use DefaultBuilderTrait<T> */
     use DefaultBuilderTrait;
 
     public function __construct(

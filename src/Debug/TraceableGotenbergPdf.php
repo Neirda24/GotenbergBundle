@@ -15,7 +15,7 @@ use Sensiolabs\GotenbergBundle\GotenbergPdfInterface;
 final class TraceableGotenbergPdf implements GotenbergPdfInterface
 {
     /**
-     * @var list<array{string, TraceablePdfBuilder}>
+     * @var list<array{string, TraceablePdfBuilder<mixed>}>
      */
     private array $builders = [];
 
@@ -38,11 +38,11 @@ final class TraceableGotenbergPdf implements GotenbergPdfInterface
     }
 
     /**
-     * @return HtmlPdfBuilder|TraceablePdfBuilder
+     * @return HtmlPdfBuilder<mixed>|TraceablePdfBuilder<mixed>
      */
     public function html(): PdfBuilderInterface
     {
-        /** @var HtmlPdfBuilder|TraceablePdfBuilder $traceableBuilder */
+        /** @var HtmlPdfBuilder<mixed>|TraceablePdfBuilder<mixed> $traceableBuilder */
         $traceableBuilder = $this->inner->html();
 
         if (!$traceableBuilder instanceof TraceablePdfBuilder) {
@@ -55,11 +55,11 @@ final class TraceableGotenbergPdf implements GotenbergPdfInterface
     }
 
     /**
-     * @return UrlPdfBuilder|TraceablePdfBuilder
+     * @return UrlPdfBuilder<mixed>|TraceablePdfBuilder<mixed>
      */
     public function url(): PdfBuilderInterface
     {
-        /** @var UrlPdfBuilder|TraceablePdfBuilder $traceableBuilder */
+        /** @var UrlPdfBuilder<mixed>|TraceablePdfBuilder<mixed> $traceableBuilder */
         $traceableBuilder = $this->inner->url();
 
         if (!$traceableBuilder instanceof TraceablePdfBuilder) {
@@ -72,11 +72,11 @@ final class TraceableGotenbergPdf implements GotenbergPdfInterface
     }
 
     /**
-     * @return LibreOfficePdfBuilder|TraceablePdfBuilder
+     * @return LibreOfficePdfBuilder<mixed>|TraceablePdfBuilder<mixed>
      */
     public function office(): PdfBuilderInterface
     {
-        /** @var LibreOfficePdfBuilder|TraceablePdfBuilder $traceableBuilder */
+        /** @var LibreOfficePdfBuilder<mixed>|TraceablePdfBuilder<mixed> $traceableBuilder */
         $traceableBuilder = $this->inner->office();
 
         if (!$traceableBuilder instanceof TraceablePdfBuilder) {
@@ -89,11 +89,11 @@ final class TraceableGotenbergPdf implements GotenbergPdfInterface
     }
 
     /**
-     * @return MarkdownPdfBuilder|TraceablePdfBuilder
+     * @return MarkdownPdfBuilder<mixed>|TraceablePdfBuilder<mixed>
      */
     public function markdown(): PdfBuilderInterface
     {
-        /** @var MarkdownPdfBuilder|TraceablePdfBuilder $traceableBuilder */
+        /** @var MarkdownPdfBuilder<mixed>|TraceablePdfBuilder<mixed> $traceableBuilder */
         $traceableBuilder = $this->inner->markdown();
 
         if (!$traceableBuilder instanceof TraceablePdfBuilder) {
@@ -106,11 +106,11 @@ final class TraceableGotenbergPdf implements GotenbergPdfInterface
     }
 
     /**
-     * @return MergePdfBuilder|TraceablePdfBuilder
+     * @return MergePdfBuilder<mixed>|TraceablePdfBuilder<mixed>
      */
     public function merge(): PdfBuilderInterface
     {
-        /** @var MergePdfBuilder|TraceablePdfBuilder $traceableBuilder */
+        /** @var MergePdfBuilder<mixed>|TraceablePdfBuilder<mixed> $traceableBuilder */
         $traceableBuilder = $this->inner->merge();
 
         if (!$traceableBuilder instanceof TraceablePdfBuilder) {
@@ -123,11 +123,11 @@ final class TraceableGotenbergPdf implements GotenbergPdfInterface
     }
 
     /**
-     * @return ConvertPdfBuilder|TraceablePdfBuilder
+     * @return ConvertPdfBuilder<mixed>|TraceablePdfBuilder<mixed>
      */
     public function convert(): PdfBuilderInterface
     {
-        /** @var ConvertPdfBuilder|TraceablePdfBuilder $traceableBuilder */
+        /** @var ConvertPdfBuilder<mixed>|TraceablePdfBuilder<mixed> $traceableBuilder */
         $traceableBuilder = $this->inner->convert();
 
         if (!$traceableBuilder instanceof TraceablePdfBuilder) {
@@ -140,7 +140,7 @@ final class TraceableGotenbergPdf implements GotenbergPdfInterface
     }
 
     /**
-     * @return list<array{string, TraceablePdfBuilder}>
+     * @return list<array{string, TraceablePdfBuilder<mixed>}>
      */
     public function getBuilders(): array
     {

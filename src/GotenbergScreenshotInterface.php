@@ -14,22 +14,22 @@ interface GotenbergScreenshotInterface
      *
      * @param string|class-string<T> $builder
      *
-     * @return ($builder is class-string ? T : ScreenshotBuilderInterface)
+     * @return ($builder is class-string ? T : ScreenshotBuilderInterface<mixed>)
      */
     public function get(string $builder): ScreenshotBuilderInterface;
 
     /**
-     * @return HtmlScreenshotBuilder
+     * @return HtmlScreenshotBuilder<mixed>
      */
     public function html(): ScreenshotBuilderInterface;
 
     /**
-     * @return UrlScreenshotBuilder
+     * @return UrlScreenshotBuilder<mixed>
      */
     public function url(): ScreenshotBuilderInterface;
 
     /**
-     * @return MarkdownScreenshotBuilder
+     * @return MarkdownScreenshotBuilder<mixed>
      */
     public function markdown(): ScreenshotBuilderInterface;
 }

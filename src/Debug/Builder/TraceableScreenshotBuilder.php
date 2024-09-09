@@ -6,15 +6,19 @@ use Sensiolabs\GotenbergBundle\Builder\GotenbergFileResult;
 use Sensiolabs\GotenbergBundle\Builder\Screenshot\ScreenshotBuilderInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
+/**
+ * @template T
+ * @implements ScreenshotBuilderInterface<T>
+ */
 final class TraceableScreenshotBuilder implements ScreenshotBuilderInterface
 {
     /**
-     * @var list<array{'time': float, 'memory': int, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'method': string, 'class': class-string<ScreenshotBuilderInterface>, 'arguments': array<mixed>}>}>
+     * @var list<array{'time': float, 'memory': int, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'method': string, 'class': class-string<ScreenshotBuilderInterface<mixed>>, 'arguments': array<mixed>}>}>
      */
     private array $screenshots = [];
 
     /**
-     * @var list<array{'class': class-string<ScreenshotBuilderInterface>, 'method': string, 'arguments': array<mixed>}>
+     * @var list<array{'class': class-string<ScreenshotBuilderInterface<mixed>>, 'method': string, 'arguments': array<mixed>}>
      */
     private array $calls = [];
 
@@ -22,6 +26,9 @@ final class TraceableScreenshotBuilder implements ScreenshotBuilderInterface
 
     private static int $count = 0;
 
+    /**
+     * @param ScreenshotBuilderInterface<T> $inner
+     */
     public function __construct(
         private readonly ScreenshotBuilderInterface $inner,
         private readonly Stopwatch $stopwatch,
@@ -72,13 +79,16 @@ final class TraceableScreenshotBuilder implements ScreenshotBuilderInterface
     }
 
     /**
-     * @return list<array{'time': float, 'memory': int, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'class': class-string<ScreenshotBuilderInterface>, 'method': string, 'arguments': array<mixed>}>}>
+     * @return list<array{'time': float, 'memory': int, 'size': int<0, max>|null, 'fileName': string|null, 'calls': list<array{'class': class-string<ScreenshotBuilderInterface<mixed>>, 'method': string, 'arguments': array<mixed>}>}>
      */
     public function getFiles(): array
     {
         return $this->screenshots;
     }
 
+    /**
+     * @return ScreenshotBuilderInterface<T>
+     */
     public function getInner(): ScreenshotBuilderInterface
     {
         return $this->inner;

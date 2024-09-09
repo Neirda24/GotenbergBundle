@@ -444,6 +444,9 @@ class AbstractChromiumPdfBuilderTest extends AbstractBuilderTestCase
         $builder->header('templates/invalid.html.twig');
     }
 
+    /**
+     * @return AbstractChromiumPdfBuilder<null>
+     */
     private function getChromiumPdfBuilder(bool $twig = true, RequestStack $requestStack = new RequestStack()): AbstractChromiumPdfBuilder
     {
         return new class($this->gotenbergClient, self::$assetBaseDirFormatter, $requestStack, true === $twig ? self::$twig : null) extends AbstractChromiumPdfBuilder {

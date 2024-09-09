@@ -8,6 +8,10 @@ use Sensiolabs\GotenbergBundle\Exception\MissingRequiredFieldException;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File as DataPartFile;
 
+/**
+ * @template T of mixed
+ * @extends AbstractPdfBuilder<T>
+ */
 final class ConvertPdfBuilder extends AbstractPdfBuilder
 {
     private const ENDPOINT = '/forms/pdfengines/convert';
@@ -16,6 +20,8 @@ final class ConvertPdfBuilder extends AbstractPdfBuilder
      * To set configurations by an array of configurations.
      *
      * @param array<string, mixed> $configurations
+     *
+     * @return $this
      */
     public function setConfigurations(array $configurations): static
     {
@@ -28,6 +34,8 @@ final class ConvertPdfBuilder extends AbstractPdfBuilder
 
     /**
      * Convert the resulting PDF into the given PDF/A format.
+     *
+     * @return $this
      */
     public function pdfFormat(PdfFormat $format): self
     {
@@ -38,6 +46,8 @@ final class ConvertPdfBuilder extends AbstractPdfBuilder
 
     /**
      * Enable PDF for Universal Access for optimal accessibility.
+     *
+     * @return $this
      */
     public function pdfUniversalAccess(bool $bool = true): self
     {
@@ -46,6 +56,9 @@ final class ConvertPdfBuilder extends AbstractPdfBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function files(string ...$paths): self
     {
         $this->formFields['files'] = [];

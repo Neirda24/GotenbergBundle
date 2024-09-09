@@ -8,6 +8,10 @@ use Sensiolabs\GotenbergBundle\Exception\ScreenshotPartRenderingException;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File as DataPartFile;
 
+/**
+ * @template T of mixed
+ * @extends AbstractChromiumScreenshotBuilder<T>
+ */
 final class MarkdownScreenshotBuilder extends AbstractChromiumScreenshotBuilder
 {
     private const ENDPOINT = '/forms/chromium/screenshot/markdown';
@@ -18,6 +22,8 @@ final class MarkdownScreenshotBuilder extends AbstractChromiumScreenshotBuilder
      * @param string               $template #Template
      * @param array<string, mixed> $context
      *
+     * @return $this
+     *
      * @throws ScreenshotPartRenderingException if the template could not be rendered
      */
     public function wrapper(string $template, array $context = []): self
@@ -27,12 +33,17 @@ final class MarkdownScreenshotBuilder extends AbstractChromiumScreenshotBuilder
 
     /**
      * The HTML file that wraps the markdown content.
+     *
+     * @return $this
      */
     public function wrapperFile(string $path): self
     {
         return $this->withScreenshotPartFile(Part::Body, $path);
     }
 
+    /**
+     * @return $this
+     */
     public function files(string ...$paths): self
     {
         $this->formFields['files'] = [];

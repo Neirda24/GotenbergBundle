@@ -89,6 +89,9 @@ final class ConvertPdfBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return ConvertPdfBuilder<null>
+     */
     private function getConvertPdfBuilder(): ConvertPdfBuilder
     {
         return (new ConvertPdfBuilder($this->gotenbergClient, self::$assetBaseDirFormatter))

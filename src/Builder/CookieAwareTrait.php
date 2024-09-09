@@ -18,12 +18,16 @@ trait CookieAwareTrait
      * @see https://gotenberg.dev/docs/routes#cookies-chromium
      *
      * @param list<Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}> $cookies
+     *
+     * @return $this
      */
     abstract public function cookies(array $cookies): static;
 
     /**
      * @param array{cookies?: array<string, Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}>} $formFields
      * @param list<Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}>                           $cookies
+     *
+     * @return $this
      */
     private function withCookies(array &$formFields, array $cookies): static
     {
@@ -50,12 +54,16 @@ trait CookieAwareTrait
 
     /**
      * @param Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null} $cookie
+     *
+     * @return $this
      */
     abstract public function setCookie(string $key, Cookie|array $cookie): static;
 
     /**
      * @param array{cookies?: array<string, Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}>} $formFields
      * @param Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}                                 $cookie
+     *
+     * @return $this
      */
     private function withCookie(array &$formFields, string $key, Cookie|array $cookie): static
     {
@@ -71,6 +79,8 @@ trait CookieAwareTrait
      * @see https://gotenberg.dev/docs/routes#cookies-chromium
      *
      * @param list<Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}> $cookies
+     *
+     * @return $this
      */
     public function addCookies(array $cookies): static
     {
@@ -87,6 +97,9 @@ trait CookieAwareTrait
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     private function forwardCookieFromRequest(Request|null $request, string $key, LoggerInterface|null $logger = null): static
     {
         if (null === $request) {
@@ -115,6 +128,9 @@ trait CookieAwareTrait
         ]);
     }
 
+    /**
+     * @return $this
+     */
     abstract public function forwardCookie(string $name): static;
 
     /**

@@ -130,6 +130,9 @@ final class UrlPdfBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return UrlPdfBuilder<null>
+     */
     private function getUrlPdfBuilder(UrlGeneratorInterface|null $urlGenerator = null): UrlPdfBuilder
     {
         return (new UrlPdfBuilder($this->gotenbergClient, self::$assetBaseDirFormatter, new RequestStack(), urlGenerator: $urlGenerator))

@@ -10,6 +10,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 use Twig\Environment;
 
+/**
+ * @template T of mixed
+ * @extends AbstractChromiumScreenshotBuilder<T>
+ */
 final class UrlScreenshotBuilder extends AbstractChromiumScreenshotBuilder
 {
     private const ENDPOINT = '/forms/chromium/screenshot/url';
@@ -28,6 +32,9 @@ final class UrlScreenshotBuilder extends AbstractChromiumScreenshotBuilder
         $this->addNormalizer('route', $this->generateUrlFromRoute(...));
     }
 
+    /**
+     * @return $this
+     */
     public function setRequestContext(RequestContext|null $requestContext = null): self
     {
         $this->requestContext = $requestContext;
@@ -37,6 +44,8 @@ final class UrlScreenshotBuilder extends AbstractChromiumScreenshotBuilder
 
     /**
      * URL of the page you want to screenshot.
+     *
+     * @return $this
      */
     public function url(string $url): self
     {
@@ -48,6 +57,8 @@ final class UrlScreenshotBuilder extends AbstractChromiumScreenshotBuilder
     /**
      * @param string       $name       #Route
      * @param array<mixed> $parameters
+     *
+     * @return $this
      *
      * @phpstan-assert !null $this->urlGenerator
      */

@@ -71,6 +71,8 @@ final class AbstractScreenshotBuilderTest extends AbstractBuilderTestCase
      *     'cookies'?: list<array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}>,
      *     'metadata'?: array<string, mixed>
      * } $formFields
+     *
+     * @return AbstractScreenshotBuilder<null>
      */
     private function getScreenshotBuilder(array $formFields = []): AbstractScreenshotBuilder
     {

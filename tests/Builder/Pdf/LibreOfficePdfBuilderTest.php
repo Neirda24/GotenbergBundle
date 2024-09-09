@@ -163,6 +163,9 @@ final class LibreOfficePdfBuilderTest extends AbstractBuilderTestCase
         $builder->getMultipartFormData();
     }
 
+    /**
+     * @return LibreOfficePdfBuilder<null>
+     */
     private function getLibreOfficePdfBuilder(): LibreOfficePdfBuilder
     {
         return (new LibreOfficePdfBuilder($this->gotenbergClient, self::$assetBaseDirFormatter))

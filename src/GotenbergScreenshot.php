@@ -24,10 +24,10 @@ final class GotenbergScreenshot implements GotenbergScreenshotInterface
      * @param 'html'|'url'|'markdown' $key
      *
      * @return (
-     *   $key is 'html' ? HtmlScreenshotBuilder :
-     *   $key is 'url' ? UrlScreenshotBuilder :
-     *   $key is 'markdown' ? MarkdownScreenshotBuilder :
-     *   ScreenshotBuilderInterface
+     *   $key is 'html' ? HtmlScreenshotBuilder<mixed> :
+     *   $key is 'url' ? UrlScreenshotBuilder<mixed> :
+     *   $key is 'markdown' ? MarkdownScreenshotBuilder<mixed> :
+     *   ScreenshotBuilderInterface<mixed>
      * )
      */
     private function getInternal(string $key): ScreenshotBuilderInterface

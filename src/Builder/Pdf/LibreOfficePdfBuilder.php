@@ -9,6 +9,10 @@ use Sensiolabs\GotenbergBundle\Exception\MissingRequiredFieldException;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File as DataPartFile;
 
+/**
+ * @template T of mixed
+ * @extends AbstractPdfBuilder<T>
+ */
 final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 {
     private const ENDPOINT = '/forms/libreoffice/convert';
@@ -30,6 +34,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
      * To set configurations by an array of configurations.
      *
      * @param array<string, mixed> $configurations
+     *
+     * @return $this
      */
     public function setConfigurations(array $configurations): static
     {
@@ -42,6 +48,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Sets the paper orientation to landscape.
+     *
+     * @return $this
      */
     public function landscape(bool $bool = true): self
     {
@@ -54,6 +62,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
      * Page ranges to print, e.g., '1-4' - empty means all pages.
      *
      * If multiple files are provided, the page ranges will be applied independently to each file.
+     *
+     * @return $this
      */
     public function nativePageRanges(string $range): self
     {
@@ -64,6 +74,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Set whether to export the form fields or to use the inputted/selected content of the fields.
+     *
+     * @return $this
      */
     public function doNotExportFormFields(bool $bool = false): self
     {
@@ -74,6 +86,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Set whether to render the entire spreadsheet as a single page.
+     *
+     * @return $this
      */
     public function singlePageSheets(bool $bool = true): self
     {
@@ -84,6 +98,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Convert the resulting PDF into the given PDF/A format.
+     *
+     * @return $this
      */
     public function pdfFormat(PdfFormat $format): self
     {
@@ -94,6 +110,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Enable PDF for Universal Access for optimal accessibility.
+     *
+     * @return $this
      */
     public function pdfUniversalAccess(bool $bool = true): self
     {
@@ -104,6 +122,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Merge alphanumerically the resulting PDFs.
+     *
+     * @return $this
      */
     public function merge(bool $bool = true): self
     {
@@ -114,6 +134,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Adds office files to convert (overrides any previous files).
+     *
+     * @return $this
      */
     public function files(string ...$paths): self
     {
@@ -137,6 +159,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
      * @see https://exiftool.org/TagNames/XMP.html#pdf
      *
      * @param array<string, mixed> $metadata
+     *
+     * @return $this
      */
     public function metadata(array $metadata): self
     {
@@ -147,6 +171,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * The metadata to write.
+     *
+     * @return $this
      */
     public function addMetadata(string $key, string $value): self
     {
@@ -158,6 +184,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify whether multiple form fields exported are allowed to have the same field name.
+     *
+     * @return $this
      */
     public function allowDuplicateFieldNames(bool $bool = true): self
     {
@@ -168,6 +196,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify if bookmarks are exported to PDF.
+     *
+     * @return $this
      */
     public function doNotExportBookmarks(bool $bool = false): self
     {
@@ -178,6 +208,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify that the bookmarks contained in the source LibreOffice file should be exported to the PDF file as Named Destination.
+     *
+     * @return $this
      */
     public function exportBookmarksToPdfDestination(bool $bool = true): self
     {
@@ -188,6 +220,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Export the placeholders fields visual markings only. The exported placeholder is ineffective.
+     *
+     * @return $this
      */
     public function exportPlaceholders(bool $bool = true): self
     {
@@ -198,6 +232,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify if notes are exported to PDF.
+     *
+     * @return $this
      */
     public function exportNotes(bool $bool = true): self
     {
@@ -208,6 +244,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify if notes pages are exported to PDF. Notes pages are available in Impress documents only.
+     *
+     * @return $this
      */
     public function exportNotesPages(bool $bool = true): self
     {
@@ -218,6 +256,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify, if the form field exportNotesPages is set to true, if only notes pages are exported to PDF.
+     *
+     * @return $this
      */
     public function exportOnlyNotesPages(bool $bool = true): self
     {
@@ -228,6 +268,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify if notes in margin are exported to PDF.
+     *
+     * @return $this
      */
     public function exportNotesInMargin(bool $bool = true): self
     {
@@ -238,6 +280,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify that the target documents with .od[tpgs] extension, will have that extension changed to .pdf when the link is exported to PDF. The source document remains untouched.
+     *
+     * @return $this
      */
     public function convertOooTargetToPdfTarget(bool $bool = true): self
     {
@@ -248,6 +292,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify that the file system related hyperlinks (file:// protocol) present in the document will be exported as relative to the source document location.
+     *
+     * @return $this
      */
     public function exportLinksRelativeFsys(bool $bool = true): self
     {
@@ -258,6 +304,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Export, for LibreOffice Impress, slides that are not included in slide shows.
+     *
+     * @return $this
      */
     public function exportHiddenSlides(bool $bool = true): self
     {
@@ -268,6 +316,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify that automatically inserted empty pages are suppressed. This option is active only if storing Writer documents.
+     *
+     * @return $this
      */
     public function skipEmptyPages(bool $bool = true): self
     {
@@ -278,6 +328,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify that a stream is inserted to the PDF file which contains the original document for archiving purposes.
+     *
+     * @return $this
      */
     public function addOriginalDocumentAsStream(bool $bool = true): self
     {
@@ -288,6 +340,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify if images are exported to PDF using a lossless compression format like PNG or compressed using the JPEG format.
+     *
+     * @return $this
      */
     public function losslessImageCompression(bool $bool = true): self
     {
@@ -300,6 +354,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
      * Specify the quality of the JPG export. A higher value produces a higher-quality image and a larger file. Between 1 and 100.
      *
      * @param int<0, 100> $quality
+     *
+     * @return $this
      */
     public function quality(int $quality): self
     {
@@ -310,6 +366,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * Specify if the resolution of each image is reduced to the resolution specified by the form field maxImageResolution.
+     *
+     * @return $this
      */
     public function reduceImageResolution(bool $bool = true): self
     {
@@ -320,6 +378,8 @@ final class LibreOfficePdfBuilder extends AbstractPdfBuilder
 
     /**
      * If the form field reduceImageResolution is set to true, tell if all images will be reduced to the given value in DPI. Possible values are: 75, 150, 300, 600 and 1200.
+     *
+     * @return $this
      */
     public function maxImageResolution(ImageResolutionDPI $resolution): self
     {

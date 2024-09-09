@@ -19,6 +19,9 @@ use Twig\Environment;
 
 /**
  * @internal
+ *
+ * @template T of mixed
+ * @extends AbstractScreenshotBuilder<T>
  */
 abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuilder
 {
@@ -57,6 +60,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * To set configurations by an array of configurations.
      *
      * @param array<string, mixed> $configurations
+     *
+     * @return $this
      */
     public function setConfigurations(array $configurations): static
     {
@@ -69,6 +74,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
 
     /**
      * @param list<Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null}> $cookies
+     *
+     * @return $this
      */
     public function cookies(array $cookies): static
     {
@@ -77,12 +84,17 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
 
     /**
      * @param Cookie|array{name: string, value: string, domain: string, path?: string|null, secure?: bool|null, httpOnly?: bool|null, sameSite?: 'Strict'|'Lax'|null} $cookie
+     *
+     * @return $this
      */
     public function setCookie(string $key, Cookie|array $cookie): static
     {
         return $this->withCookie($this->formFields, $key, $cookie);
     }
 
+    /**
+     * @return $this
+     */
     public function forwardCookie(string $name): static
     {
         return $this->forwardCookieFromRequest($this->requestStack->getCurrentRequest(), $name, $this->logger);
@@ -92,6 +104,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * The device screen width in pixels. (Default 800).
      *
      * @see https://gotenberg.dev/docs/routes#screenshots-route
+     *
+     * @return $this
      */
     public function width(int $width): static
     {
@@ -104,6 +118,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * The device screen width in pixels. (Default 600).
      *
      * @see https://gotenberg.dev/docs/routes#screenshots-route
+     *
+     * @return $this
      */
     public function height(int $height): static
     {
@@ -116,6 +132,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * Define whether to clip the screenshot according to the device dimensions. (Default false).
      *
      * @see https://gotenberg.dev/docs/routes#screenshots-route
+     *
+     * @return $this
      */
     public function clip(bool $bool = true): static
     {
@@ -128,6 +146,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * The image compression format, either "png", "jpeg" or "webp". (default png).
      *
      * @see https://gotenberg.dev/docs/routes#screenshots-route
+     *
+     * @return $this
      */
     public function format(ScreenshotFormat $format): static
     {
@@ -140,6 +160,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * The compression quality from range 0 to 100 (jpeg only). (default 100).
      *
      * @param int<0, 100> $quality
+     *
+     * @return $this
      *
      * @see https://gotenberg.dev/docs/routes#screenshots-route
      */
@@ -155,6 +177,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * transparency. (Default false).
      *
      * @see https://gotenberg.dev/docs/routes#page-properties-chromium
+     *
+     * @return $this
      */
     public function omitBackground(bool $bool = true): static
     {
@@ -167,6 +191,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * Define whether to optimize image encoding for speed, not for resulting size. (Default false).
      *
      * @see https://gotenberg.dev/docs/routes#screenshots-route
+     *
+     * @return $this
      */
     public function optimizeForSpeed(bool $bool = true): static
     {
@@ -180,6 +206,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * document before converting it to screenshot. (default None).
      *
      * @see https://gotenberg.dev/docs/routes#wait-before-rendering
+     *
+     * @return $this
      */
     public function waitDelay(string $delay): static
     {
@@ -195,6 +223,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * For instance: "window.status === 'ready'".
      *
      * @see https://gotenberg.dev/docs/routes#wait-before-rendering
+     *
+     * @return $this
      */
     public function waitForExpression(string $expression): static
     {
@@ -207,6 +237,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * Forces Chromium to emulate, either "screen" or "print". (default "print").
      *
      * @see https://gotenberg.dev/docs/routes#console-exceptions
+     *
+     * @return $this
      */
     public function emulatedMediaType(EmulatedMediaType $mediaType): static
     {
@@ -219,6 +251,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * Override the default User-Agent HTTP header. (default None).
      *
      * @param UserAgent::*|string $userAgent
+     *
+     * @return $this
      *
      * @see https://gotenberg.dev/docs/routes#custom-http-headers-chromium
      */
@@ -236,6 +270,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * @see https://gotenberg.dev/docs/routes#custom-http-headers-chromium
      *
      * @param array<string, string> $headers
+     *
+     * @return $this
      */
     public function extraHttpHeaders(array $headers): static
     {
@@ -257,6 +293,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * @see https://gotenberg.dev/docs/routes#custom-http-headers
      *
      * @param array<string, string> $headers
+     *
+     * @return $this
      */
     public function addExtraHttpHeaders(array $headers): static
     {
@@ -276,6 +314,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * @see https://gotenberg.dev/docs/routes#invalid-http-status-codes-chromium
      *
      * @param array<int, int> $statusCodes
+     *
+     * @return $this
      */
     public function failOnHttpStatusCodes(array $statusCodes): static
     {
@@ -289,6 +329,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
      * exceptions in the Chromium console. (default false).
      *
      * @see https://gotenberg.dev/docs/routes#console-exceptions
+     *
+     * @return $this
      */
     public function failOnConsoleExceptions(bool $bool = true): static
     {
@@ -297,6 +339,9 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function skipNetworkIdleEvent(bool $bool = true): static
     {
         $this->formFields['skipNetworkIdleEvent'] = $bool;
@@ -306,6 +351,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
 
     /**
      * Adds additional files, like images, fonts, stylesheets, and so on (overrides any previous files).
+     *
+     * @return $this
      */
     public function assets(string ...$paths): static
     {
@@ -320,6 +367,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
 
     /**
      * Adds a file, like an image, font, stylesheet, and so on.
+     *
+     * @return $this
      */
     public function addAsset(string $path): static
     {
@@ -332,6 +381,9 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function withScreenshotPartFile(Part $screenshotPart, string $path): static
     {
         $dataPart = new DataPart(
@@ -347,6 +399,8 @@ abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuild
     /**
      * @param string               $template #Template
      * @param array<string, mixed> $context
+     *
+     * @return $this
      *
      * @throws ScreenshotPartRenderingException if the template could not be rendered
      */

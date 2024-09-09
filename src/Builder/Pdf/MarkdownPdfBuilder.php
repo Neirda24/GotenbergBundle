@@ -8,6 +8,10 @@ use Sensiolabs\GotenbergBundle\Exception\PdfPartRenderingException;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File as DataPartFile;
 
+/**
+ * @template T of mixed
+ * @extends AbstractChromiumPdfBuilder<T>
+ */
 final class MarkdownPdfBuilder extends AbstractChromiumPdfBuilder
 {
     private const ENDPOINT = '/forms/chromium/convert/markdown';
@@ -18,6 +22,8 @@ final class MarkdownPdfBuilder extends AbstractChromiumPdfBuilder
      * @param string               $template #Template
      * @param array<string, mixed> $context
      *
+     * @return $this
+     *
      * @throws PdfPartRenderingException if the template could not be rendered
      */
     public function wrapper(string $template, array $context = []): self
@@ -27,12 +33,17 @@ final class MarkdownPdfBuilder extends AbstractChromiumPdfBuilder
 
     /**
      * The HTML file that wraps the markdown content.
+     *
+     * @return $this
      */
     public function wrapperFile(string $path): self
     {
         return $this->withPdfPartFile(Part::Body, $path);
     }
 
+    /**
+     * @return $this
+     */
     public function files(string ...$paths): self
     {
         $this->formFields['files'] = [];

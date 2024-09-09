@@ -15,7 +15,7 @@ class FileProcessorTest extends TestCase
 {
     public function testProcess(): void
     {
-        $processor = new FileProcessor(new Filesystem(), sys_get_temp_dir());
+        $processor = new FileProcessor(sys_get_temp_dir(), new Filesystem());
         $generator = $processor(null);
 
         $generator->send(new FirstChunk(0, 'a'));
