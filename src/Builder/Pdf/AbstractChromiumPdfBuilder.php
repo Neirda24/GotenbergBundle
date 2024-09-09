@@ -23,6 +23,7 @@ use Twig\Environment;
  * @internal
  *
  * @template T of mixed
+ *
  * @extends AbstractPdfBuilder<T>
  */
 abstract class AbstractChromiumPdfBuilder extends AbstractPdfBuilder

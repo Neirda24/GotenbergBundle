@@ -10,6 +10,7 @@ use Symfony\Component\Mime\Part\File as DataPartFile;
 
 /**
  * @template T of mixed
+ *
  * @extends AbstractChromiumPdfBuilder<T>
  */
 final class MarkdownPdfBuilder extends AbstractChromiumPdfBuilder

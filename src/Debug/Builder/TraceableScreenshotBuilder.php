@@ -8,6 +8,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * @template T
+ *
  * @implements ScreenshotBuilderInterface<T>
  */
 final class TraceableScreenshotBuilder implements ScreenshotBuilderInterface

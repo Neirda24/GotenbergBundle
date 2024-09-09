@@ -10,6 +10,7 @@ use Symfony\Component\Mime\Part\File as DataPartFile;
 
 /**
  * @template T of mixed
+ *
  * @extends AbstractChromiumScreenshotBuilder<T>
  */
 final class MarkdownScreenshotBuilder extends AbstractChromiumScreenshotBuilder

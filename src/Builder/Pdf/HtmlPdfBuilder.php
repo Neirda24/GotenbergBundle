@@ -8,6 +8,7 @@ use Sensiolabs\GotenbergBundle\Exception\PdfPartRenderingException;
 
 /**
  * @template T of mixed
+ *
  * @extends AbstractChromiumPdfBuilder<T>
  */
 final class HtmlPdfBuilder extends AbstractChromiumPdfBuilder

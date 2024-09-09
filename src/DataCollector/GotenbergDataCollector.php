@@ -21,7 +21,7 @@ final class GotenbergDataCollector extends DataCollector implements LateDataColl
 {
     /**
      * @param ServiceLocator<PdfBuilderInterface<mixed>|ScreenshotBuilderInterface<mixed>> $builders
-     * @param array<mixed>                                                   $defaultOptions
+     * @param array<mixed>                                                                 $defaultOptions
      */
     public function __construct(
         private readonly TraceableGotenbergPdf $traceableGotenbergPdf,

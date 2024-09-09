@@ -21,6 +21,7 @@ use Twig\Environment;
  * @internal
  *
  * @template T of mixed
+ *
  * @extends AbstractScreenshotBuilder<T>
  */
 abstract class AbstractChromiumScreenshotBuilder extends AbstractScreenshotBuilder

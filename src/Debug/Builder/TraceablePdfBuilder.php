@@ -8,6 +8,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * @template T
+ *
  * @implements PdfBuilderInterface<T>
  */
 final class TraceablePdfBuilder implements PdfBuilderInterface

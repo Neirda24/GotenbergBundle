@@ -11,6 +11,7 @@ use Symfony\Component\Mime\Part\File as DataPartFile;
 
 /**
  * @template T of mixed
+ *
  * @extends AbstractPdfBuilder<T>
  */
 final class LibreOfficePdfBuilder extends AbstractPdfBuilder

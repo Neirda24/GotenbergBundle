@@ -12,6 +12,7 @@ use Twig\Environment;
 
 /**
  * @template T of mixed
+ *
  * @extends AbstractChromiumScreenshotBuilder<T>
  */
 final class UrlScreenshotBuilder extends AbstractChromiumScreenshotBuilder

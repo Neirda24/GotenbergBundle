@@ -12,6 +12,7 @@ use Twig\Environment;
 
 /**
  * @template T of mixed
+ *
  * @extends AbstractChromiumPdfBuilder<T>
  */
 final class UrlPdfBuilder extends AbstractChromiumPdfBuilder

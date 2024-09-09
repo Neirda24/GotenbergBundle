@@ -8,6 +8,7 @@ use Sensiolabs\GotenbergBundle\Exception\ScreenshotPartRenderingException;
 
 /**
  * @template T of mixed
+ *
  * @extends AbstractChromiumScreenshotBuilder<T>
  */
 final class HtmlScreenshotBuilder extends AbstractChromiumScreenshotBuilder

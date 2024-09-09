@@ -10,6 +10,7 @@ use Sensiolabs\GotenbergBundle\Formatter\AssetBaseDirFormatter;
  * @internal
  *
  * @template T of mixed
+ *
  * @implements PdfBuilderInterface<T>
  */
 abstract class AbstractPdfBuilder implements PdfBuilderInterface
