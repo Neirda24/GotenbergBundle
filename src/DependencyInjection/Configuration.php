@@ -599,6 +599,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('url')
                     ->info('The URL to call.')
+                    ->example('https://webhook.site/#!/view/{some-token}')
                 ->end()
                 ->variableNode('route')
                     ->info('Route configuration.')
@@ -618,10 +619,7 @@ class Configuration implements ConfigurationInterface
                         })
                         ->thenInvalid('The "route" parameter must be a string or an array containing a string and an array.')
                     ->end()
-                    ->example([
-                        'https://webhook.site/#!/view/{some-token}',
-                        ['my_route', ['param1' => 'value1', 'param2' => 'value2']],
-                    ])
+                    ->example("['my_route', ['param1' => 'value1', 'param2' => 'value2']]")
                 ->end()
                 ->enumNode('method')
                     ->info('HTTP method to use on that endpoint.')
