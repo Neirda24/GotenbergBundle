@@ -2,17 +2,8 @@
 
 namespace Sensiolabs\GotenbergBundle\DependencyInjection;
 
-use Sensiolabs\GotenbergBundle\Builder\BuilderInterface;
-use Sensiolabs\GotenbergBundle\Builder\Pdf\HtmlPdfBuilder;
-use Sensiolabs\GotenbergBundle\Builder\Pdf\MergePdfBuilder;
 use Sensiolabs\GotenbergBundle\BuilderOld\Pdf\PdfBuilderInterface;
-use Sensiolabs\GotenbergBundle\Configurator\AbstractBuilderConfigurator;
-use Sensiolabs\GotenbergBundle\Configurator\Pdf\HtmlPdfBuilderConfigurator;
-use Sensiolabs\GotenbergBundle\Configurator\Pdf\LibreOfficePdfBuilderConfigurator;
-use Sensiolabs\GotenbergBundle\Configurator\Pdf\MergePdfBuilderConfigurator;
-use Sensiolabs\GotenbergBundle\Configurator\Pdf\UrlPdfBuilderConfigurator;
 use Sensiolabs\GotenbergBundle\Enumeration\EmulatedMediaType;
-use Sensiolabs\GotenbergBundle\Enumeration\ImageResolutionDPI;
 use Sensiolabs\GotenbergBundle\Enumeration\PaperSize;
 use Sensiolabs\GotenbergBundle\Enumeration\PdfFormat;
 use Sensiolabs\GotenbergBundle\Enumeration\ScreenshotFormat;
@@ -28,7 +19,7 @@ class Configuration implements ConfigurationInterface
      * @param array<string, array<class-string<PdfBuilderInterface>, NodeDefinition>> $builders
      */
     public function __construct(
-        private readonly array $builders
+        private readonly array $builders,
     ) {
     }
 
