@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Routing\RequestContext;
 use function array_reverse;
 use function is_a;
+use function is_string;
 use function sprintf;
 
 /**
@@ -50,17 +51,12 @@ use function sprintf;
  */
 class SensiolabsGotenbergExtension extends Extension
 {
-    /**
-     * @var array<string, class-string<BuilderInterface>>
-     */
-    private array $typeReverseMapping = [];
+    private BuilderStack $builderStack;
 
-    /**
-     * @var array<class-string<BuilderInterface>, array<string, string>>
-     */
-    private array $configMapping = [];
-
-    private array $configNode = [];
+    public function __construct()
+    {
+        $this->builderStack = new BuilderStack();
+    }
 
     /**
      * @param 'pdf'|'screenshot' $type
@@ -68,47 +64,12 @@ class SensiolabsGotenbergExtension extends Extension
      */
     public function registerBuilder(string $type, string $class): void
     {
-        if (!is_a($class, BuilderInterface::class, true)) {
-            throw new LogicException('logic');
-        }
-
-        $reflection = new \ReflectionClass($class);
-        $nodeAttributes = $reflection->getAttributes(SemanticNode::class);
-
-        if (count($nodeAttributes) === 0) {
-            throw new LogicException(sprintf('%s is missing the %s attribute', $class, SemanticNode::class));
-        }
-
-        /** @var SemanticNode $semanticNode */
-        $semanticNode = $nodeAttributes[0]->newInstance();
-
-        $this->typeReverseMapping[$semanticNode->name] = $class;
-
-        $treeBuilder = new TreeBuilder($semanticNode->name);
-        $root = $treeBuilder->getRootNode()->addDefaultsIfNotSet();
-
-        foreach (array_reverse($reflection->getMethods(\ReflectionMethod::IS_PUBLIC)) as $method) {
-            $attributes = $method->getAttributes(ExposeSemantic::class);
-            if (\count($attributes) === 0) {
-                continue;
-            }
-
-            /** @var ExposeSemantic $attribute */
-            $attribute = $attributes[0]->newInstance();
-
-            $root->append($attribute->node->create());
-
-            $this->configMapping[$class] ??= [];
-            $this->configMapping[$class][$attribute->node->getName()] = $method->getName();
-        }
-
-        $this->configNode[$type] ??= [];
-        $this->configNode[$type][$class] = $root;
+        $this->builderStack->push($type, $class);
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {
-        return new Configuration($this->configNode);
+        return new Configuration($this->builderStack->getConfigNode());
     }
 
     public function load(array $configs, ContainerBuilder $container): void
@@ -209,15 +170,19 @@ class SensiolabsGotenbergExtension extends Extension
 
         // Configurators
         $configValueMapping = [];
-        foreach ($config['default_options'] as $builders) {
-            foreach ($builders as $builder => $options) {
-                $class = $this->typeReverseMapping[$builder];
-                $configValueMapping[$class] = $options;
+        foreach ($config['default_options'] as $type => $buildersOptions) {
+            if ($type === 'webhook') {
+                continue;
+            }
+
+            foreach ($buildersOptions as $builderName => $builderOptions) {
+                $class = $this->builderStack->getTypeReverseMapping()[$builderName];
+                $configValueMapping[$class] = $this->cleanUserOptions($builderOptions);
             }
         }
 
         $container->getDefinition('sensiolabs_gotenberg.builder_configurator')
-            ->replaceArgument(0, $this->configMapping)
+            ->replaceArgument(0, $this->builderStack->getConfigMapping())
             ->replaceArgument(1, $configValueMapping)
         ;
     }
