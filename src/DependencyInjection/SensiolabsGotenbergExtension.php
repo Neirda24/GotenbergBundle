@@ -103,7 +103,7 @@ class SensiolabsGotenbergExtension extends Extension
                 ->replaceArgument(3, [
                     'html' => $this->cleanUserOptions($config['default_options']['pdf']['html']),
                     'url' => $this->cleanUserOptions($config['default_options']['pdf']['url']),
-                    //                    'markdown' => $this->cleanUserOptions($config['default_options']['pdf']['markdown']),
+                    'markdown' => $this->cleanUserOptions($config['default_options']['pdf']['markdown']),
                     'office' => $this->cleanUserOptions($config['default_options']['pdf']['office']),
                     'merge' => $this->cleanUserOptions($config['default_options']['pdf']['merge']),
                     //                    'convert' => $this->cleanUserOptions($config['default_options']['pdf']['convert']),
@@ -137,28 +137,6 @@ class SensiolabsGotenbergExtension extends Extension
         //                ->addMethodCall('add', [$name, $configuration]);
         //        }
         //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.pdf_builder.html', $config['default_options']['pdf']['html']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.pdf_builder.url', $config['default_options']['pdf']['url']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.pdf_builder.markdown', $config['default_options']['pdf']['markdown']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.pdf_builder.office', $config['default_options']['pdf']['office']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.pdf_builder.merge', $config['default_options']['pdf']['merge']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.pdf_builder.convert', $config['default_options']['pdf']['convert']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.pdf_builder.split', $config['default_options']['pdf']['split']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.screenshot_builder.html', $config['default_options']['screenshot']['html']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.screenshot_builder.url', $config['default_options']['screenshot']['url']);
-        //
-        //        $this->processDefaultOptions($container, $config, '.sensiolabs_gotenberg.screenshot_builder.markdown', $config['default_options']['screenshot']['markdown']);
-        //
-        //        $definition = $container->getDefinition('.sensiolabs_gotenberg.asset.base_dir_formatter');
-        //        $definition->replaceArgument(1, $config['assets_directory']);
 
         // Configurators
         $container
@@ -169,6 +147,11 @@ class SensiolabsGotenbergExtension extends Extension
         $container
             ->getDefinition('.sensiolabs_gotenberg.pdf_builder_configurator.url')
             ->replaceArgument(0, $this->processDefaultOptions($config, $config['default_options']['pdf']['url']))
+        ;
+
+        $container
+            ->getDefinition('.sensiolabs_gotenberg.pdf_builder_configurator.markdown')
+            ->replaceArgument(0, $this->processDefaultOptions($config, $config['default_options']['pdf']['markdown']))
         ;
 
         $container
