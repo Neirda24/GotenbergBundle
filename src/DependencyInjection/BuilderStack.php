@@ -2,11 +2,33 @@
 
 namespace Sensiolabs\GotenbergBundle\DependencyInjection;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Parser\ConstExprParser;
+use PHPStan\PhpDocParser\Parser\TypeParser;
+use PHPStan\PhpDocParser\ParserConfig;
+use Roave\BetterReflection\BetterReflection;
+use Roave\BetterReflection\Reflector\DefaultReflector;
+use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 use Sensiolabs\GotenbergBundle\Builder\Attributes\ExposeSemantic;
 use Sensiolabs\GotenbergBundle\Builder\Attributes\SemanticNode;
 use Sensiolabs\GotenbergBundle\Builder\BuilderInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\TypeInfo\TypeResolver\TypeResolver;
+use PHPStan\PhpDocParser\Lexer\Lexer;
+use PHPStan\PhpDocParser\Parser\PhpDocParser;
+use PHPStan\PhpDocParser\Parser\TokenIterator;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\TypeAliasTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use ReflectionMethod;
+
+use function array_merge;
+use function array_pop;
+use function array_shift;
+use function dd;
+use function explode;
+use function implode;
 
 /**
  * @internal
@@ -32,6 +54,15 @@ final class BuilderStack
      * @var array<string, array<class-string<BuilderInterface>, NodeDefinition>>
      */
     private array $configNode = [];
+
+    private TypeResolver $typeResolver;
+    private GuessConfigFromMethod $guess;
+
+    public function __construct()
+    {
+        $this->typeResolver = TypeResolver::create();
+        $this->guess = new GuessConfigFromMethod();
+    }
 
     /**
      * @param 'pdf'|'screenshot'             $type
@@ -71,13 +102,12 @@ final class BuilderStack
                 continue;
             }
 
-            /** @var ExposeSemantic $attribute */
-            $attribute = $attributes[0]->newInstance();
+            [$nodeName, $node] = $this->guess->convert($method);
 
-            $root->append($attribute->node->create());
+            $root->append($node);
 
             $this->configMapping[$class] ??= [];
-            $this->configMapping[$class][$attribute->node->getName()] = $method->getName();
+            $this->configMapping[$class][$nodeName] = $method->getName();
         }
 
         $this->configNode[$type] ??= [];
