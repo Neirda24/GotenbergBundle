@@ -15,6 +15,7 @@ use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use PHPStan\PhpDocParser\Parser\ConstExprParser;
@@ -149,38 +150,43 @@ final class GuessConfigFromMethod
         return [$nodeName, $rootNode];
     }
 
-    private function convertTypeToTree(ArrayNodeDefinition $node, TypeNode $type) {
+    private function convertTypeToTree(ArrayNodeDefinition $node, TypeNode $type, string|null $name = null): void {
+        dump($type, $name, '==============');
         if ($type instanceof ArrayShapeNode) {
             // Gérer les array shape récursivement
-            $subNode = $node->children();
             foreach ($type->items as $item) {
                 $key = $item->keyName;
                 $valueType = $item->valueType;
-                $this->convertTypeToTree($subNode->arrayNode($key)->isRequired(), $valueType);
+                $this->convertTypeToTree($node, $valueType, $key);
             }
         } elseif ($type instanceof IdentifierTypeNode) {
             // Types scalaires
             switch ($type->name) {
-                case 'int':
-                    $node->children()->integerNode('value')->isRequired()->cannotBeEmpty();
+//                case 'int':
+//                    $node->children()->integerNode($name)->isRequired()->cannotBeEmpty();
+//                    break;
+//                case 'string':
+//                    $node->children()->scalarNode($name)->isRequired()->cannotBeEmpty();
+//                    break;
+//                case 'bool':
+//                    $node->children()->booleanNode($name)->isRequired();
+//                    break;
+//                case 'float':
+//                    $node->children()->floatNode($name)->isRequired()->cannotBeEmpty();
+//                    break;
+//                case 'array':
+//                    $node->requiresAtLeastOneElement();
+//                    break;
+                case 'list':
+                    /** @var $type GenericTypeNode */
+                    $genericType = $type->genericTypes[0];
+                    // TODO : if array then prototype array
                     break;
-                case 'string':
-                    $node->children()->scalarNode('value')->isRequired()->cannotBeEmpty();
-                    break;
-                case 'bool':
-                    $node->children()->booleanNode('value')->isRequired();
-                    break;
-                case 'float':
-                    $node->children()->floatNode('value')->isRequired()->cannotBeEmpty();
-                    break;
-                case 'array':
-                    $node->requiresAtLeastOneElement();
-                    break;
-                case 'object':
-                    $node->children()->scalarNode('value')->info('Instance d’un objet');
-                    break;
+//                case 'object':
+//                    $node->children()->scalarNode($name)->info('Instance d’un objet');
+//                    break;
                 default:
-                    $node->children()->variableNode('value');
+                    $node->children()->variableNode($name);
             }
         } elseif ($type instanceof UnionTypeNode) {
             // Gérer les union types (ex: `int|string`)
@@ -191,15 +197,15 @@ final class GuessConfigFromMethod
                 }
             }
             if (!empty($allowedTypes)) {
-                $node->children()->enumNode('value')->values($allowedTypes);
+                $node->children()->enumNode('enum')->values($allowedTypes);
             }
         } elseif ($type instanceof GenericTypeNode) {
             // Gérer `array<Foo>` ou `iterable<int, string>`
 //            $node->children()->arrayNode('value')->requiresAtLeastOneElement();
-            $node->children()->arrayNode('value');
+            $node->children()->arrayNode('generic');
         } else {
             // Type inconnu
-            $node->children()->variableNode('value');
+            $node->children()->variableNode('else');
         }
     }
 
