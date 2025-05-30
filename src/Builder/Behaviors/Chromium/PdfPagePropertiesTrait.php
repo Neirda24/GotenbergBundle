@@ -2,7 +2,7 @@
 
 namespace Sensiolabs\GotenbergBundle\Builder\Behaviors\Chromium;
 
-use Sensiolabs\GotenbergBundle\Builder\Attributes\ExposeSemantic;
+use Sensiolabs\GotenbergBundle\Builder\Attributes\WithSemanticNode;
 use Sensiolabs\GotenbergBundle\Builder\Attributes\NormalizeGotenbergPayload;
 use Sensiolabs\GotenbergBundle\Builder\BodyBag;
 use Sensiolabs\GotenbergBundle\Builder\Util\NormalizerFactory;
@@ -30,7 +30,7 @@ trait PdfPagePropertiesTrait
      *
      * If the singlePage form field is set to true, it automatically overrides the values from the paperHeight and nativePageRanges form fields.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('single_page'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('single_page'))]
     public function singlePage(bool $bool = true): static
     {
         $this->getBodyBag()->set('singlePage', $bool);
@@ -41,7 +41,7 @@ trait PdfPagePropertiesTrait
     /**
      * Specify paper width using units like 72pt, 96px, 1in, 25.4mm, 2.54cm, or 6pc. Default unit is inches if unspecified.
      */
-    #[ExposeSemantic(new UnitNodeBuilder('paper_width'))]
+    #[WithSemanticNode(new UnitNodeBuilder('paper_width'))]
     public function paperWidth(float $width, Unit $unit = Unit::Inches): static
     {
         $this->getBodyBag()->set('paperWidth', $width.$unit->value);
@@ -52,7 +52,7 @@ trait PdfPagePropertiesTrait
     /**
      * Specify paper height using units like 72pt, 96px, 1in, 25.4mm, 2.54cm, or 6pc. Default unit is inches if unspecified.
      */
-    #[ExposeSemantic(new UnitNodeBuilder('paper_height'))]
+    #[WithSemanticNode(new UnitNodeBuilder('paper_height'))]
     public function paperHeight(float $height, Unit $unit = Unit::Inches): static
     {
         $this->getBodyBag()->set('paperHeight', $height.$unit->value);
@@ -85,7 +85,7 @@ trait PdfPagePropertiesTrait
         return $this;
     }
 
-    #[ExposeSemantic(new NativeEnumNodeBuilder('paper_standard_size', enumClass: PaperSize::class))]
+    #[WithSemanticNode(new NativeEnumNodeBuilder('paper_standard_size', enumClass: PaperSize::class))]
     public function paperStandardSize(PaperSizeInterface $paperSize): static
     {
         $this->paperWidth($paperSize->width(), $paperSize->unit());
@@ -97,7 +97,7 @@ trait PdfPagePropertiesTrait
     /**
      * Specify top margin width using units like 72pt, 96px, 1in, 25.4mm, 2.54cm, or 6pc. Default unit is inches if unspecified.
      */
-    #[ExposeSemantic(new UnitNodeBuilder('margin_top'))]
+    #[WithSemanticNode(new UnitNodeBuilder('margin_top'))]
     public function marginTop(float $top, Unit $unit = Unit::Inches): static
     {
         $this->getBodyBag()->set('marginTop', $top.$unit->value);
@@ -108,7 +108,7 @@ trait PdfPagePropertiesTrait
     /**
      * Specify bottom margin using units like 72pt, 96px, 1in, 25.4mm, 2.54cm, or 6pc. Default unit is inches if unspecified.
      */
-    #[ExposeSemantic(new UnitNodeBuilder('margin_bottom'))]
+    #[WithSemanticNode(new UnitNodeBuilder('margin_bottom'))]
     public function marginBottom(float $bottom, Unit $unit = Unit::Inches): static
     {
         $this->getBodyBag()->set('marginBottom', $bottom.$unit->value);
@@ -119,7 +119,7 @@ trait PdfPagePropertiesTrait
     /**
      * Specify left margin using units like 72pt, 96px, 1in, 25.4mm, 2.54cm, or 6pc. Default unit is inches if unspecified.
      */
-    #[ExposeSemantic(new UnitNodeBuilder('margin_left'))]
+    #[WithSemanticNode(new UnitNodeBuilder('margin_left'))]
     public function marginLeft(float $left, Unit $unit = Unit::Inches): static
     {
         $this->getBodyBag()->set('marginLeft', $left.$unit->value);
@@ -130,7 +130,7 @@ trait PdfPagePropertiesTrait
     /**
      * Specify right margin using units like 72pt, 96px, 1in, 25.4mm, 2.54cm, or 6pc. Default unit is inches if unspecified.
      */
-    #[ExposeSemantic(new UnitNodeBuilder('margin_right'))]
+    #[WithSemanticNode(new UnitNodeBuilder('margin_right'))]
     public function marginRight(float $right, Unit $unit = Unit::Inches): static
     {
         $this->getBodyBag()->set('marginRight', $right.$unit->value);
@@ -154,7 +154,7 @@ trait PdfPagePropertiesTrait
     /**
      * Define whether to prefer page size as defined by CSS.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('prefer_css_page_size'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('prefer_css_page_size'))]
     public function preferCssPageSize(bool $bool = true): static
     {
         $this->getBodyBag()->set('preferCssPageSize', $bool);
@@ -165,7 +165,7 @@ trait PdfPagePropertiesTrait
     /**
      * Define whether the document outline should be embedded into the PDF.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('generate_document_outline'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('generate_document_outline'))]
     public function generateDocumentOutline(bool $bool = true): static
     {
         $this->getBodyBag()->set('generateDocumentOutline', $bool);
@@ -176,7 +176,7 @@ trait PdfPagePropertiesTrait
     /**
      * Prints the background graphics.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('print_background'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('print_background'))]
     public function printBackground(bool $bool = true): static
     {
         $this->getBodyBag()->set('printBackground', $bool);
@@ -187,7 +187,7 @@ trait PdfPagePropertiesTrait
     /**
      * Hide the default white background and allow generating PDFs with transparency.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('omit_background'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('omit_background'))]
     public function omitBackground(bool $bool = true): static
     {
         $this->getBodyBag()->set('omitBackground', $bool);
@@ -198,7 +198,7 @@ trait PdfPagePropertiesTrait
     /**
      * Set the paper orientation to landscape.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('landscape'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('landscape'))]
     public function landscape(bool $bool = true): static
     {
         $this->getBodyBag()->set('landscape', $bool);
@@ -209,7 +209,7 @@ trait PdfPagePropertiesTrait
     /**
      * The scale of the page rendering (e.g., 1.0).
      */
-    #[ExposeSemantic(new FloatNodeBuilder('scale'))]
+    #[WithSemanticNode(new FloatNodeBuilder('scale'))]
     public function scale(float $scale): static
     {
         $this->getBodyBag()->set('scale', $scale);
@@ -220,7 +220,7 @@ trait PdfPagePropertiesTrait
     /**
      * Page ranges to print, e.g., '1-5, 8, 11-13'.
      */
-    #[ExposeSemantic(new ScalarNodeBuilder('native_page_ranges'))]
+    #[WithSemanticNode(new ScalarNodeBuilder('native_page_ranges'))]
     public function nativePageRanges(string|null $ranges = null): static
     {
         if (!$ranges) {
@@ -236,7 +236,7 @@ trait PdfPagePropertiesTrait
     /**
      * Define whether to generate tagged (accessible) PDF.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('generate_tagged_pdf'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('generate_tagged_pdf'))]
     public function generateTaggedPdf(bool $bool = true): static
     {
         $this->getBodyBag()->set('generateTaggedPdf', $bool);

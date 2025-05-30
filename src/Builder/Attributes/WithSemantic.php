@@ -3,7 +3,7 @@
 namespace Sensiolabs\GotenbergBundle\Builder\Attributes;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-final class SemanticNode
+final class WithSemantic
 {
     public function __construct(
         public readonly string $type,

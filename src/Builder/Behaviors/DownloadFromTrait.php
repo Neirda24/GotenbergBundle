@@ -2,7 +2,7 @@
 
 namespace Sensiolabs\GotenbergBundle\Builder\Behaviors;
 
-use Sensiolabs\GotenbergBundle\Builder\Attributes\ExposeSemantic;
+use Sensiolabs\GotenbergBundle\Builder\Attributes\WithSemanticNode;
 use Sensiolabs\GotenbergBundle\Builder\Attributes\NormalizeGotenbergPayload;
 use Sensiolabs\GotenbergBundle\Builder\BodyBag;
 use Sensiolabs\GotenbergBundle\Builder\Util\NormalizerFactory;
@@ -24,7 +24,7 @@ trait DownloadFromTrait
      *
      * @see https://gotenberg.dev/docs/routes#download-from
      */
-    #[ExposeSemantic(new ArrayNodeBuilder('download_from', prototype: 'array', children: [
+    #[WithSemanticNode(new ArrayNodeBuilder('download_from', prototype: 'array', children: [
         new ScalarNodeBuilder('url', required: true, restrictTo: 'string'),
         new ArrayNodeBuilder('extraHttpHeaders', useAttributeAsKey: 'name', prototype: 'array', children: [
             new ScalarNodeBuilder('name', required: true),

@@ -2,8 +2,8 @@
 
 namespace Sensiolabs\GotenbergBundle\DependencyInjection;
 
-use Sensiolabs\GotenbergBundle\Builder\Attributes\ExposeSemantic;
-use Sensiolabs\GotenbergBundle\Builder\Attributes\SemanticNode;
+use Sensiolabs\GotenbergBundle\Builder\Attributes\WithSemanticNode;
+use Sensiolabs\GotenbergBundle\Builder\Attributes\WithSemantic;
 use Sensiolabs\GotenbergBundle\Builder\BuilderInterface;
 use Sensiolabs\GotenbergBundle\Enumeration\Unit;
 use Sensiolabs\GotenbergBundle\NodeBuilder\ArrayNodeBuilder;
@@ -50,13 +50,13 @@ final class BuilderStack
         }
 
         $reflection = new \ReflectionClass($class);
-        $nodeAttributes = $reflection->getAttributes(SemanticNode::class);
+        $nodeAttributes = $reflection->getAttributes(WithSemantic::class);
 
         if (\count($nodeAttributes) === 0) {
-            throw new \LogicException(\sprintf('%s is missing the %s attribute', $class, SemanticNode::class));
+            throw new \LogicException(\sprintf('%s is missing the %s attribute', $class, WithSemantic::class));
         }
 
-        /** @var SemanticNode $semanticNode */
+        /** @var WithSemantic $semanticNode */
         $semanticNode = $nodeAttributes[0]->newInstance();
 
         $this->builders[$class] = $semanticNode->type;
@@ -64,12 +64,12 @@ final class BuilderStack
         $this->typeReverseMapping[$semanticNode->type][$semanticNode->name] = $class;
 
         foreach (array_reverse($reflection->getMethods(\ReflectionMethod::IS_PUBLIC)) as $method) {
-            $attributes = $method->getAttributes(ExposeSemantic::class);
+            $attributes = $method->getAttributes(WithSemanticNode::class);
             if (\count($attributes) === 0) {
                 continue;
             }
 
-            /** @var ExposeSemantic $attribute */
+            /** @var WithSemanticNode $attribute */
             $attribute = $attributes[0]->newInstance();
 
             $mustUseVariadic = false;

@@ -2,7 +2,7 @@
 
 namespace Sensiolabs\GotenbergBundle\Builder\Behaviors;
 
-use Sensiolabs\GotenbergBundle\Builder\Attributes\ExposeSemantic;
+use Sensiolabs\GotenbergBundle\Builder\Attributes\WithSemanticNode;
 use Sensiolabs\GotenbergBundle\Builder\Attributes\NormalizeGotenbergPayload;
 use Sensiolabs\GotenbergBundle\Builder\BodyBag;
 use Sensiolabs\GotenbergBundle\Builder\Util\NormalizerFactory;
@@ -20,7 +20,7 @@ trait PdfFormatTrait
     /**
      * Convert the resulting PDF into the given PDF/A format.
      */
-    #[ExposeSemantic(new NativeEnumNodeBuilder('pdf_format', enumClass: PdfFormat::class))]
+    #[WithSemanticNode(new NativeEnumNodeBuilder('pdf_format', enumClass: PdfFormat::class))]
     public function pdfFormat(PdfFormat|null $format): self
     {
         if (!$format) {
@@ -35,7 +35,7 @@ trait PdfFormatTrait
     /**
      * Enable PDF for Universal Access for optimal accessibility.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('pdf_universal_access'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('pdf_universal_access'))]
     public function pdfUniversalAccess(bool $bool = true): self
     {
         $this->getBodyBag()->set('pdfua', $bool);

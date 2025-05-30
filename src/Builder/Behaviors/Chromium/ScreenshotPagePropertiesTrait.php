@@ -2,7 +2,7 @@
 
 namespace Sensiolabs\GotenbergBundle\Builder\Behaviors\Chromium;
 
-use Sensiolabs\GotenbergBundle\Builder\Attributes\ExposeSemantic;
+use Sensiolabs\GotenbergBundle\Builder\Attributes\WithSemanticNode;
 use Sensiolabs\GotenbergBundle\Builder\Attributes\NormalizeGotenbergPayload;
 use Sensiolabs\GotenbergBundle\Builder\BodyBag;
 use Sensiolabs\GotenbergBundle\Builder\Util\NormalizerFactory;
@@ -23,7 +23,7 @@ trait ScreenshotPagePropertiesTrait
     /**
      * The device screen width in pixels. (Default 800).
      */
-    #[ExposeSemantic(new IntegerNodeBuilder('width'))]
+    #[WithSemanticNode(new IntegerNodeBuilder('width'))]
     public function width(int $width): static
     {
         $this->getBodyBag()->set('width', $width);
@@ -34,7 +34,7 @@ trait ScreenshotPagePropertiesTrait
     /**
      * The device screen width in pixels. (Default 600).
      */
-    #[ExposeSemantic(new IntegerNodeBuilder('height'))]
+    #[WithSemanticNode(new IntegerNodeBuilder('height'))]
     public function height(int $height): static
     {
         $this->getBodyBag()->set('height', $height);
@@ -45,7 +45,7 @@ trait ScreenshotPagePropertiesTrait
     /**
      * Define whether to clip the screenshot according to the device dimensions. (Default false).
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('clip'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('clip'))]
     public function clip(bool $bool = true): static
     {
         $this->getBodyBag()->set('clip', $bool);
@@ -56,7 +56,7 @@ trait ScreenshotPagePropertiesTrait
     /**
      * The image compression format, either "png", "jpeg" or "webp". (default png).
      */
-    #[ExposeSemantic(new NativeEnumNodeBuilder('format', enumClass: ScreenshotFormat::class))]
+    #[WithSemanticNode(new NativeEnumNodeBuilder('format', enumClass: ScreenshotFormat::class))]
     public function format(ScreenshotFormat $format): static
     {
         $this->getBodyBag()->set('format', $format);
@@ -69,7 +69,7 @@ trait ScreenshotPagePropertiesTrait
      *
      * @param int<0, 100> $quality
      */
-    #[ExposeSemantic(new IntegerNodeBuilder('quality', min: 0, max: 100))]
+    #[WithSemanticNode(new IntegerNodeBuilder('quality', min: 0, max: 100))]
     public function quality(int $quality): static
     {
         $this->getBodyBag()->set('quality', $quality);
@@ -80,7 +80,7 @@ trait ScreenshotPagePropertiesTrait
     /**
      * Hides default white background and allows generating screenshot with transparency.
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('omit_background'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('omit_background'))]
     public function omitBackground(bool $bool = true): static
     {
         $this->getBodyBag()->set('omitBackground', $bool);
@@ -91,7 +91,7 @@ trait ScreenshotPagePropertiesTrait
     /**
      * Define whether to optimize image encoding for speed, not for resulting size. (Default false).
      */
-    #[ExposeSemantic(new BooleanNodeBuilder('optimize_for_speed'))]
+    #[WithSemanticNode(new BooleanNodeBuilder('optimize_for_speed'))]
     public function optimizeForSpeed(bool $bool = true): static
     {
         $this->getBodyBag()->set('optimizeForSpeed', $bool);

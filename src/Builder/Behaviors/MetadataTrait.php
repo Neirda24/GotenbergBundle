@@ -2,7 +2,7 @@
 
 namespace Sensiolabs\GotenbergBundle\Builder\Behaviors;
 
-use Sensiolabs\GotenbergBundle\Builder\Attributes\ExposeSemantic;
+use Sensiolabs\GotenbergBundle\Builder\Attributes\WithSemanticNode;
 use Sensiolabs\GotenbergBundle\Builder\Attributes\NormalizeGotenbergPayload;
 use Sensiolabs\GotenbergBundle\Builder\BodyBag;
 use Sensiolabs\GotenbergBundle\Builder\Util\NormalizerFactory;
@@ -42,7 +42,7 @@ trait MetadataTrait
      *     Trapped?: 'True'|'False'|'Unknown',
      * } $metadata
      */
-    #[ExposeSemantic(new MetadataNodeBuilder('metadata', children: [
+    #[WithSemanticNode(new MetadataNodeBuilder('metadata', children: [
         new ScalarNodeBuilder('Author'),
         new ScalarNodeBuilder('Copyright'),
         new ScalarNodeBuilder('CreationDate'),
