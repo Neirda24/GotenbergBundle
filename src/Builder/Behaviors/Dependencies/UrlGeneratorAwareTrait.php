@@ -6,15 +6,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Symfony\Contracts\Service\ServiceSubscriberTrait;
 
-/**
- * @method UrlGeneratorInterface getUrlGenerator()
- */
 trait UrlGeneratorAwareTrait
 {
     use ServiceSubscriberTrait;
 
     #[SubscribedService('router', nullable: true)]
-    protected function getUrlGenerator(): UrlGeneratorInterface|null
+    protected function getUrlGenerator(): UrlGeneratorInterface
     {
         if (
             !$this->container->has('router')

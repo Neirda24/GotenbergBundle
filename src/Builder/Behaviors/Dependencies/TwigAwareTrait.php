@@ -6,15 +6,12 @@ use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Symfony\Contracts\Service\ServiceSubscriberTrait;
 use Twig\Environment;
 
-/**
- * @method Environment getTwig()
- */
 trait TwigAwareTrait
 {
     use ServiceSubscriberTrait;
 
     #[SubscribedService('twig', nullable: true)]
-    protected function getTwig(): Environment|null
+    protected function getTwig(): Environment
     {
         if (
             !$this->container->has('twig')
