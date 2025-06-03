@@ -34,12 +34,6 @@ parameters:
 			path: src/NodeBuilder/ArrayNodeBuilder.php
 
 		-
-			message: '#^Parameter \#1 \$bodyOptions of class Sensiolabs\\GotenbergBundle\\Builder\\Payload constructor expects list\<array\<string, string\>\>, array\<int, array\<string, string\>\> given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/Builder/AbstractBuilder.php
-
-		-
 			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
