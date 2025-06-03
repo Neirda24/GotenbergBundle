@@ -43,7 +43,6 @@ abstract class AbstractBuilder implements BuilderAsyncInterface, BuilderFileInte
 
     /**
      *  The API automatically appends the file extension, so there's no need for you to set it manually.
-     *  Indeed, the Gotenberg behavior is confusing.
      *
      * @see https://gotenberg.dev/docs/routes#output-filename.
      *

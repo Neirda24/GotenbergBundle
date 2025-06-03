@@ -1,11 +1,9 @@
 <?php
 
-use Psr\Container\ContainerInterface;
 use Sensiolabs\GotenbergBundle\Builder\AbstractBuilder;
 use Sensiolabs\GotenbergBundle\Configurator\BuilderConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\abstract_arg;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -16,7 +14,7 @@ return static function (ContainerConfigurator $container): void {
 
     $services->set('.sensiolabs_gotenberg.abstract_builder', AbstractBuilder::class)
         ->abstract()
-        ->call('setContainer', [service(ContainerInterface::class)])
+        ->call('setContainer')
         ->tag('container.service_subscriber')
     ;
 
