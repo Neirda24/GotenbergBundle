@@ -46,7 +46,7 @@ use Symfony\Component\HttpFoundation\Response;
 public function pdf(
     GotenbergPdfInterface $gotenbergPdf,
     Filesystem $filesystem,
-    
+
     #[Autowire('%kernel.project_dir%/var/pdf')]
     string $pdfStorage,
 ): Response {
@@ -79,11 +79,11 @@ class SomeService
 {
     public function __construct(
         private readonly GotenbergPdfInterface $gotenbergPdf,
-        
+
         #[Autowire('%kernel.project_dir%/var/pdf')]
         private readonly string $pdfStorage,
     ) {}
-    
+
     public function pdf(): \SplFileInfo
     {
         return $this->gotenbergPdf->html()
@@ -118,14 +118,13 @@ Creates a temporary file and dump all chunks into it. Return a `ressource` of sa
 ```php
 use Sensiolabs\GotenbergBundle\GotenbergPdfInterface;
 use Sensiolabs\GotenbergBundle\Processor\TempfileProcessor;
-use Symfony\Component\Filesystem\Filesystem;
 
 class SomeService
 {
     public function __construct(
         private readonly GotenbergPdfInterface $gotenbergPdf,
     ) {}
-    
+
     /**
      * @return resource
      */
@@ -170,11 +169,11 @@ class SomeService
 {
     public function __construct(
         private readonly GotenbergPdfInterface $gotenbergPdf,
-        
+
         #[Autowire('%kernel.project_dir%/var/pdf')]
         private readonly string $pdfStorage,
     ) {}
-    
+
     /**
      * @return array{0: \SplFileInfo, 1: int}
      */
@@ -216,11 +215,11 @@ class SomeService
 {
     public function __construct(
         private readonly GotenbergPdfInterface $gotenbergPdf,
-        
+
         #[Autowire(service: 'pdfs.storage')] // Use the name under the `flysystem.storages` key in your packages configuration.
         private readonly FilesystemOperator $filesystemOperator,
     ) {}
-    
+
     /**
      * @return Closure(): string
      */
@@ -259,7 +258,7 @@ class SomeService
         private readonly GotenbergPdfInterface $gotenbergPdf,
         private readonly S3Client $s3Client,
     ) {}
-    
+
     public function pdf(): CompleteMultipartUploadOutput
     {
         return $this->gotenbergPdf->html()
@@ -269,6 +268,40 @@ class SomeService
                 $this->s3Client,
                 'bucket-name',
             ))
+            ->generate()
+            ->process()
+        ;
+    }
+}
+```
+
+</details>
+
+### `Sensiolabs\GotenbergBundle\Processor\InMemoryProcessor`
+
+Loads the full PDF in memory. Should **NOT** be used in production.
+This is not memory safe and you might end up with a "Fatal Error: Allowed Memory Size".
+Consider using one of the other Processors.
+
+<details>
+<summary>Example in a service</summary>
+
+```php
+use Sensiolabs\GotenbergBundle\GotenbergPdfInterface;
+use Sensiolabs\GotenbergBundle\Processor\InMemoryProcessor;
+
+class SomeService
+{
+    public function __construct(
+        private readonly GotenbergPdfInterface $gotenbergPdf,
+    ) {}
+
+    public function pdf(): string
+    {
+        return $this->gotenbergPdf->html()
+            //
+            ->fileName('my_pdf')
+            ->processor(new InMemoryProcessor())
             ->generate()
             ->process()
         ;
