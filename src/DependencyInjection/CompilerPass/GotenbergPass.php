@@ -32,7 +32,7 @@ final class GotenbergPass implements CompilerPassInterface
             $type = $this->builderStack->getBuilders()[$class];
 
             $builderPerType[$type] ??= [];
-            $builderPerType[$type][] = new Reference($serviceId);
+            $builderPerType[$type][$serviceId] = new Reference($serviceId);
         }
 
         if ($container->hasDefinition('sensiolabs_gotenberg.pdf')) {
