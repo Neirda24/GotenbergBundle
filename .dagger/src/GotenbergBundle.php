@@ -101,18 +101,6 @@ class GotenbergBundle
     }
 
     #[DaggerFunction]
-    public function testComposerValidate(
-        #[DefaultPath('.')]
-        Directory $source,
-
-        string $phpVersion = '8.4',
-    ): Container {
-        return $this->phpContainer($source, $phpVersion)
-            ->withExec(['composer', 'validate', '--strict'])
-        ;
-    }
-
-    #[DaggerFunction]
     public function testValidateDependencies(
         #[DefaultPath('.')]
         Directory $source,
@@ -122,6 +110,20 @@ class GotenbergBundle
     ): Container {
         return $this->symfonyContainer($source, $phpVersion, $symfonyVersion)
             ->withExec(['./vendor/bin/composer-dependency-analyser', '--show-all-usages'])
+        ;
+    }
+
+    #[DaggerFunction]
+    public function generateDocs(
+        #[DefaultPath('.')]
+        Directory $source,
+
+        string $phpVersion = '8.4',
+        string $symfonyVersion = '7.3',
+    ): Directory {
+        return $this->symfonyContainer($source, $phpVersion, $symfonyVersion)
+            ->withExec(['./docs/generate.php'])
+            ->directory('./docs')
         ;
     }
 }

@@ -4,5 +4,9 @@
   "sdk": {
     "source": "php"
   },
+  "include": [
+    "!.venv",
+    "!sdk"
+  ],
   "source": ".dagger"
 }
