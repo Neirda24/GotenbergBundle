@@ -10,12 +10,8 @@ use Dagger\Attribute\DefaultPath;
 use Dagger\Attribute\Doc;
 use Dagger\Container;
 use Dagger\Directory;
-
-use Dagger\EnvVariable;
-use Dagger\EnvVariableId;
 use Dagger\Service;
 use function Dagger\dag;
-use function getenv;
 
 #[DaggerObject]
 #[Doc('A generated module for GotenbergBundle functions')]
