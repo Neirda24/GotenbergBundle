@@ -5,7 +5,6 @@
     "source": "php"
   },
   "include": [
-    "!.dagger/.venv",
     "!.dagger/sdk",
     "!.dagger/vendor"
   ],
