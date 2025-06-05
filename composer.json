@@ -31,7 +31,8 @@
         "symfony/http-client-contracts": "^3.5",
         "symfony/http-foundation": "^6.4 || ^7.0",
         "symfony/http-kernel": "^6.4 || ^7.0",
-        "symfony/mime": "^6.4 || ^7.0"
+        "symfony/mime": "^6.4 || ^7.0",
+        "symfony/service-contracts": "^3.6"
     },
     "require-dev": {
         "ext-mbstring": "*",
@@ -42,8 +43,9 @@
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-phpunit": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
-        "phpunit/phpunit": "^12.1",
+        "phpunit/phpunit": "^10.5.46",
         "shipmonk/composer-dependency-analyser": "^1.8",
+        "symfony/error-handler": "^7.3",
         "symfony/framework-bundle": "^6.4 || ^7.0",
         "symfony/http-client": "^6.4 || ^7.0",
         "symfony/monolog-bundle": "^3.10",

@@ -141,7 +141,10 @@ trait CookieTestCaseTrait
         $request->setMethod('GET');
         $request->cookies->set('my_cookie', new Cookie('my_cookie', 'value', domain: 'symfony.com'));
 
-        $this->container->set('request_stack', new RequestStack([$request]));
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        $this->container->set('request_stack', $requestStack);
         $this->container->set('logger', $this->getMockBuilder(LoggerInterface::class));
 
         $builder = $this->getDefaultBuilder()
@@ -156,7 +159,10 @@ trait CookieTestCaseTrait
         $request = new Request();
         $request->setMethod('GET');
 
-        $this->container->set('request_stack', new RequestStack([$request]));
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        $this->container->set('request_stack', $requestStack);
         $this->container->set('logger', $this->getMockBuilder(LoggerInterface::class));
 
         $builder = $this->getDefaultBuilder()
