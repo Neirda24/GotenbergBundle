@@ -111,4 +111,17 @@ class GotenbergBundle
             ->withExec(['composer', 'validate', '--strict'])
         ;
     }
+
+    #[DaggerFunction]
+    public function testValidateDependencies(
+        #[DefaultPath('.')]
+        Directory $source,
+
+        string $phpVersion = '8.4',
+        string $symfonyVersion = '7.3',
+    ): Container {
+        return $this->symfonyContainer($source, $phpVersion, $symfonyVersion)
+            ->withExec(['./vendor/bin/composer-dependency-analyser', '--show-all-usages'])
+        ;
+    }
 }
