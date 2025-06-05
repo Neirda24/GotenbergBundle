@@ -14,7 +14,7 @@ permissions:
 jobs:
 
   test:
-    name: 'Build and Test - PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony-version }} ${{ matrix.deps }}'
+    name: 'Build and Test - PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony-version }}'
     runs-on: 'ubuntu-latest'
     strategy:
       matrix:
@@ -29,25 +29,14 @@ jobs:
     steps:
       - uses: 'actions/checkout@v4'
 
-      - name: 'Setup PHP'
-        uses: 'shivammathur/setup-php@v2'
-        with:
-          php-version: '${{ matrix.php }}'
-          coverage: 'none'
-          tools: 'flex'
-
-      - name: 'Validate composer.json and composer.lock'
-        run: 'composer validate --strict'
-
-      - name: 'Install dependencies'
-        uses: 'ramsey/composer-install@v3'
-        with:
-          dependency-versions: 'highest'
-        env:
-          SYMFONY_REQUIRE: '${{ matrix.symfony-version }}'
-
-      - name: 'Validate dependencies'
-        run: './vendor/bin/composer-dependency-analyser --show-all-usages'
-
       - name: 'Run test suite'
-        run: 'php vendor/bin/phpunit --display-deprecations'
+        uses: 'dagger/dagger-for-github@8.0.0'
+        with:
+            version: "latest"
+            args: "phpunit-unit --symfony-version '${{ matrix.symfony-version }}' --php-version '${{ matrix.php }}' stdout"
+#
+#      - name: 'Validate composer.json and composer.lock'
+#        run: 'composer validate --strict'
+#
+#      - name: 'Validate dependencies'
+#        run: './vendor/bin/composer-dependency-analyser --show-all-usages'

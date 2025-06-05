@@ -1,0 +1,8 @@
+{
+  "name": "GotenbergBundle",
+  "engineVersion": "v0.18.9",
+  "sdk": {
+    "source": "php"
+  },
+  "source": ".dagger"
+}

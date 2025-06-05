@@ -7,7 +7,7 @@
 [![Static analysis](https://github.com/sensiolabs/GotenbergBundle/actions/workflows/static.yml/badge.svg?branch=main)](https://github.com/sensiolabs/GotenbergBundle/actions/workflows/static.yml?query=branch%3Amain)
 [![Tests](https://github.com/sensiolabs/GotenbergBundle/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/sensiolabs/GotenbergBundle/actions/workflows/tests.yml?query=branch%3Amain)
 
-> [!WARNING]  
+> [!WARNING]
 > This Bundle is experimental and subject to change in a future release.
 
 ## What is it?
@@ -31,7 +31,7 @@ composer require sensiolabs/gotenberg-bundle
 If you accept the Symfony Flex recipe during installation, the bundle is registered,
 the configuration skeleton file is created, the `.env` file is updated with `GOTENBERG_DSN`
 and dockerfile is also created to get the [gotenberg image](https://hub.docker.com/r/gotenberg/gotenberg),
-you need to configure the ports related to `GOTENBERG_DSN` in your `.env` file. 
+you need to configure the ports related to `GOTENBERG_DSN` in your `.env` file.
 The host could be updated too since it's localhost by default. If your script is
 run in a container, the host will be `gotenberg`.
 
@@ -91,8 +91,8 @@ class YourController
 
 #### Twig
 
-> [!WARNING]  
-> Every Twig template you pass to Gotenberg must have the following structure.  
+> [!WARNING]
+> Every Twig template you pass to Gotenberg must have the following structure.
 > Even Header or Footer parts.
 > ```html
 > <!DOCTYPE html>
@@ -131,7 +131,7 @@ If a template needs to link to a static asset (e.g. an image), this bundle
 provides a `{{ gotenberg_asset() }}` Twig function to generate the correct
 path AND add it to the builder automatically.
 
-This function work as [asset() Twig function](https://symfony.com/doc/current/templates.html#linking-to-css-javascript-and-image-assets) 
+This function work as [asset() Twig function](https://symfony.com/doc/current/templates.html#linking-to-css-javascript-and-image-assets)
 and fetch your assets in the `assets` folder of your application.
 If your files are in another folder, you can override the default value of ``assets_directory``
 in your configuration file ``config/sensiolabs_gotenberg.yml``. The path provided
@@ -232,7 +232,7 @@ class YourController
 2. [HTML Builder](./docs/pdf/html-builder.md)
 3. [Markdown Builder](./docs/pdf/markdown-builder.md)
 4. [Url Builder](./docs/pdf/url-builder.md)
-5. [Office Builder](./docs/pdf/office-builder.md) (available extensions for conversion below)  
+5. [Office Builder](./docs/pdf/office-builder.md) (available extensions for conversion below)
     `123`, `602`, `abw`, `bib`, `bmp`, `cdr`, `cgm`, `cmx`, `csv`, `cwk`, `dbf`, `dif`, `doc`, `docm`,
     `docx`, `dot`, `dotm`, `dotx`, `dxf`, `emf`, `eps`, `epub`, `fodg`, `fodp`, `fods`, `fodt`, `fopd`,
     `gif`, `htm`, `html`, `hwp`, `jpeg`, `jpg`, `key`, `ltx`, `lwp`, `mcw`, `met`, `mml`, `mw`, `numbers`,
@@ -259,6 +259,12 @@ class YourController
 ### Profiler
 
 Comes with a built-in profiler panel to help you during your development.
+
+## Testing
+
+This bundle includes both unit tests and functional tests. The functional tests require a running Gotenberg service and test the actual generation of PDFs and screenshots.
+
+See [Testing Documentation](./docs/testing.md) for more information on how to run the tests.
 
 ## Credits
 
@@ -294,17 +300,17 @@ MIT License (MIT): see the [License File](LICENSE) for more details.
     +             - '--chromium-ignore-certificate-errors'
     ```
 
-    It can also be because from Gotenberg <abbr title="Point of View">PoV</abbr> the 
+    It can also be because from Gotenberg <abbr title="Point of View">PoV</abbr> the
     URL of your Symfony app is not reachable.
     Let's say you are using [symfony CLI](https://symfony.com/download) to run your
-    project locally with Gotenberg running in Docker. You need to configure the 
+    project locally with Gotenberg running in Docker. You need to configure the
     `request_context` like so:
 
     ```diff
     --- a/config/packages/gotenberg.yaml
     +++ b/config/packages/gotenberg.yaml
     @@ -6,5 +6,5 @@ framework:
-     
+
     sensiolabs_gotenberg:
         http_client: 'gotenberg.client'
     +       request_context:
