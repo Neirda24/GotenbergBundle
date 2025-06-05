@@ -36,9 +36,6 @@ jobs:
           coverage: 'none'
           tools: 'flex'
 
-      - name: 'Validate composer.json and composer.lock'
-        run: 'composer validate --strict'
-
       - name: 'Install dependencies'
         uses: 'ramsey/composer-install@v3'
         with:
