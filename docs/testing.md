@@ -11,5 +11,5 @@ $ dagger develop
 ## Running the tests
 
 ```shell
-$ dagger call phpunit-unit --symfony-version '6.4.*' --php-version '8.2' stdout
+$ dagger call test-phpunit-unit --symfony-version '6.4.*' --php-version '8.2' stdout
 ```

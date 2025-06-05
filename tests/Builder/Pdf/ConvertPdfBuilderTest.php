@@ -44,6 +44,7 @@ final class ConvertPdfBuilderTest extends GotenbergBuilderTestCase
 
     public function testAddFilesAsContent(): void
     {
+        $this->assertTrue(false);
         $this->getBuilder()
             ->files('pdf/simple_pdf.pdf')
             ->pdfUniversalAccess()

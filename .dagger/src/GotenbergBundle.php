@@ -88,7 +88,7 @@ class GotenbergBundle
     }
 
     #[DaggerFunction]
-    public function phpunitUnit(
+    public function testPhpunitUnit(
         #[DefaultPath('.')]
         Directory $source,
 
@@ -97,6 +97,18 @@ class GotenbergBundle
     ): Container {
         return $this->symfonyContainer($source, $phpVersion, $symfonyVersion)
             ->withExec(['./vendor/bin/phpunit', '--display-deprecations'])
+        ;
+    }
+
+    #[DaggerFunction]
+    public function testComposerValidate(
+        #[DefaultPath('.')]
+        Directory $source,
+
+        string $phpVersion = '8.4',
+    ): Container {
+        return $this->phpContainer($source, $phpVersion)
+            ->withExec(['composer', 'validate', '--strict'])
         ;
     }
 }
