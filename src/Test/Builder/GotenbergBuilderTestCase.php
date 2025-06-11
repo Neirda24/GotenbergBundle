@@ -20,7 +20,7 @@ abstract class GotenbergBuilderTestCase extends TestCase
 
     protected GotenbergClientAsserter $client;
     protected Container $container;
-    /** @var BuilderInterface */
+    /** @var T */
     protected BuilderInterface $builder;
 
     protected function setUp(): void
@@ -35,12 +35,12 @@ abstract class GotenbergBuilderTestCase extends TestCase
     }
 
     /**
-     * @return BuilderInterface
+     * @return T
      */
     abstract protected function createBuilder(): BuilderInterface;
 
     /**
-     * @return BuilderInterface
+     * @return T
      */
     protected function getBuilder(): BuilderInterface
     {
