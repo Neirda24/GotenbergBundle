@@ -1,6 +1,6 @@
 services:
 	-
-		class: Sensiolabs\GotenbergBundle\Tests\PHPStanRules\AlwaysUsedMethodRule
+		class: Sensiolabs\GotenbergBundle\PHPStanRules\AlwaysUsedMethodRule
 		tags:
 			- phpstan.methods.alwaysUsedMethodExtension
 
@@ -181,10 +181,10 @@ parameters:
 			message: '#^Although PHPStan\\Reflection\\Php\\PhpMethodReflection is covered by backward compatibility promise, this instanceof assumption might break because it''s not guaranteed to always stay the same\.$#'
 			identifier: phpstanApi.instanceofAssumption
 			count: 1
-			path: tests/PHPStanRules/AlwaysUsedMethodRule.php
+			path: src/PHPStanRules/AlwaysUsedMethodRule.php
 
 		- # TODO : fix this
 			message: '#^Creating new ReflectionMethod is a runtime reflection concept that might not work in PHPStan because it uses fully static reflection engine\. Use objects retrieved from ReflectionProvider instead\.$#'
 			identifier: phpstanApi.runtimeReflection
 			count: 1
-			path: tests/PHPStanRules/AlwaysUsedMethodRule.php
+			path: src/PHPStanRules/AlwaysUsedMethodRule.php

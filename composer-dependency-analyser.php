@@ -12,6 +12,7 @@ return $config
     ->addPathToScan(__DIR__.'/src', isDev: false)
     ->addPathToScan(__DIR__.'/src/DataCollector', isDev: true)
     ->addPathToScan(__DIR__.'/src/Debug', isDev: true)
+    ->addPathToScan(__DIR__.'/src/PHPStanRules', isDev: true)
     ->addPathToScan(__DIR__.'/src/Test', isDev: true)
     ->addPathToScan(__DIR__.'/tests', isDev: true)
 

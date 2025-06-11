@@ -1,6 +1,6 @@
 <?php
 
-namespace Sensiolabs\GotenbergBundle\Tests\PHPStanRules;
+namespace Sensiolabs\GotenbergBundle\PHPStanRules;
 
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\Php\PhpMethodReflection;
