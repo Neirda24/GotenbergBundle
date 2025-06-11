@@ -2,9 +2,9 @@ name: 'Tests'
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', '1.x']
   pull_request:
-    branches: ['main']
+    branches: ['main', '1.x']
   schedule:
     - cron: '0 0 * * *'
 
@@ -14,25 +14,18 @@ permissions:
 jobs:
 
   test:
-    name: 'Build and Test - PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony-version }} ${{ matrix.deps }}'
+    name: 'Build and Test - PHP ${{ matrix.php }} - Symfony ${{ matrix.symfony-version }}'
     runs-on: 'ubuntu-latest'
     strategy:
       matrix:
         symfony-version:
-          - '^7.0'
+          - '6.4.*'
+          - '7.2.*'
+          - '7.3.*'
         php:
           - '8.2'
           - '8.3'
-        deps:
-          - 'lowest'
-          - 'highest'
-        include:
-          # LTS
-          - symfony-version: '^6.4'
-            php: '8.3'
-            deps: 'highest'
-    env:
-      SYMFONY_REQUIRE: '${{ matrix.symfony-version }}'
+          - '8.4'
     steps:
       - uses: 'actions/checkout@v4'
 
@@ -41,17 +34,17 @@ jobs:
         with:
           php-version: '${{ matrix.php }}'
           coverage: 'none'
-
-      - name: 'Validate composer.json and composer.lock'
-        run: 'composer validate --strict'
+          tools: 'flex'
 
       - name: 'Install dependencies'
         uses: 'ramsey/composer-install@v3'
         with:
-          dependency-versions: '${{ matrix.deps }}'
+          dependency-versions: 'highest'
+        env:
+          SYMFONY_REQUIRE: '${{ matrix.symfony-version }}'
 
       - name: 'Validate dependencies'
         run: './vendor/bin/composer-dependency-analyser --show-all-usages'
 
       - name: 'Run test suite'
-        run: 'php vendor/bin/phpunit'
+        run: 'php vendor/bin/phpunit --display-deprecations'
