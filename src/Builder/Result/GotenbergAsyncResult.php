@@ -15,21 +15,4 @@ class GotenbergAsyncResult extends AbstractGotenbergResult
     {
         return $this->response;
     }
-
-    public function getStatusCode(): int
-    {
-        $this->ensureExecution();
-
-        return $this->getResponse()->getStatusCode();
-    }
-
-    /**
-     * @return array<string, array<string>>
-     */
-    public function getHeaders(): array
-    {
-        $this->ensureExecution();
-
-        return $this->getResponse()->getHeaders();
-    }
 }

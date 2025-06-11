@@ -51,23 +51,6 @@ class GotenbergFileResult extends AbstractGotenbergResult
         return $this;
     }
 
-    public function getStatusCode(): int
-    {
-        $this->ensureExecution();
-
-        return $this->getResponse()->getStatusCode();
-    }
-
-    /**
-     * @return array<string, array<string>>
-     */
-    public function getHeaders(): array
-    {
-        $this->ensureExecution();
-
-        return $this->getResponse()->getHeaders();
-    }
-
     /**
      * @return non-negative-int|null
      */

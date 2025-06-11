@@ -7,8 +7,6 @@ use Sensiolabs\GotenbergBundle\Processor\NullProcessor;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
-use function array_merge;
-use function basename;
 
 /**
  * @extends GotenbergFileResult<null>
@@ -30,7 +28,7 @@ class GotenbergMockFileResult extends GotenbergFileResult
                 'response_headers' => array_merge($headers, [
                     'Content-Disposition' => HeaderUtils::makeDisposition($disposition, $fileName ?? basename($path)),
                 ]),
-            ])
+            ]),
         ]);
 
         $response = $client->request('GET', '/');
@@ -53,7 +51,7 @@ class GotenbergMockFileResult extends GotenbergFileResult
                 'response_headers' => array_merge($headers, [
                     'Content-Disposition' => HeaderUtils::makeDisposition($disposition, $fileName),
                 ]),
-            ])
+            ]),
         ]);
 
         $response = $client->request('GET', '/');
