@@ -2,13 +2,25 @@
 
 namespace Sensiolabs\GotenbergBundle\Builder\Result;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
 class GotenbergAsyncResult extends AbstractGotenbergResult
 {
+    public function __construct(
+        private readonly ResponseInterface $response,
+    ) {
+    }
+
+    protected function getResponse(): ResponseInterface
+    {
+        return $this->response;
+    }
+
     public function getStatusCode(): int
     {
         $this->ensureExecution();
 
-        return $this->response->getStatusCode();
+        return $this->getResponse()->getStatusCode();
     }
 
     /**
@@ -18,6 +30,6 @@ class GotenbergAsyncResult extends AbstractGotenbergResult
     {
         $this->ensureExecution();
 
-        return $this->response->getHeaders();
+        return $this->getResponse()->getHeaders();
     }
 }

@@ -17,15 +17,18 @@ class GotenbergFileResult extends AbstractGotenbergResult
     private bool $processed = false;
 
     /**
-     * @param ProcessorInterface<TProcessorResult> $processor
+     * @phpstan-assert ProcessorInterface<TProcessorResult> $this->processor
      */
     public function __construct(
-        ResponseInterface $response,
         private readonly ResponseStreamInterface $stream,
-        private readonly ProcessorInterface $processor,
+        private ProcessorInterface $processor,
         private readonly string $disposition,
     ) {
-        parent::__construct($response);
+    }
+
+    protected function getResponse(): ResponseInterface
+    {
+        return $this->stream->key();
     }
 
     /**
@@ -33,7 +36,9 @@ class GotenbergFileResult extends AbstractGotenbergResult
      *
      * @param ProcessorInterface<TNewProcessorResult> $processor
      *
-     * @return self<TNewProcessorResult>
+     * @phpstan-assert ProcessorInterface<TNewProcessorResult> $this->processor
+     *
+     * @phpstan-this-out self<TNewProcessorResult>
      */
     public function processor(ProcessorInterface $processor): self
     {
@@ -41,14 +46,16 @@ class GotenbergFileResult extends AbstractGotenbergResult
             throw new ProcessorException('Already processed query.');
         }
 
-        return new self($this->response, $this->stream, $processor, $this->disposition);
+        $this->processor = $processor;
+
+        return $this;
     }
 
     public function getStatusCode(): int
     {
         $this->ensureExecution();
 
-        return $this->response->getStatusCode();
+        return $this->getResponse()->getStatusCode();
     }
 
     /**
@@ -58,7 +65,7 @@ class GotenbergFileResult extends AbstractGotenbergResult
     {
         $this->ensureExecution();
 
-        return $this->response->getHeaders();
+        return $this->getResponse()->getHeaders();
     }
 
     /**

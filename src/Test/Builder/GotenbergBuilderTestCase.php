@@ -1,6 +1,6 @@
 <?php
 
-namespace Sensiolabs\GotenbergBundle\Tests\Builder;
+namespace Sensiolabs\GotenbergBundle\Test\Builder;
 
 use PHPUnit\Framework\TestCase;
 use Sensiolabs\GotenbergBundle\Builder\BuilderInterface;
@@ -20,7 +20,7 @@ abstract class GotenbergBuilderTestCase extends TestCase
 
     protected GotenbergClientAsserter $client;
     protected Container $container;
-    /** @var T */
+    /** @var BuilderInterface */
     protected BuilderInterface $builder;
 
     protected function setUp(): void
@@ -35,12 +35,12 @@ abstract class GotenbergBuilderTestCase extends TestCase
     }
 
     /**
-     * @return T
+     * @return BuilderInterface
      */
     abstract protected function createBuilder(): BuilderInterface;
 
     /**
-     * @return T
+     * @return BuilderInterface
      */
     protected function getBuilder(): BuilderInterface
     {

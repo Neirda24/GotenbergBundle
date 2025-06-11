@@ -1,6 +1,6 @@
 <?php
 
-namespace Sensiolabs\GotenbergBundle\Tests\Builder;
+namespace Sensiolabs\GotenbergBundle\Test\Builder;
 
 use Sensiolabs\GotenbergBundle\Builder\Payload;
 use Sensiolabs\GotenbergBundle\Client\GotenbergClientInterface;

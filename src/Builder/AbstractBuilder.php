@@ -90,7 +90,6 @@ abstract class AbstractBuilder implements BuilderAsyncInterface, BuilderFileInte
         );
 
         return new GotenbergFileResult(
-            $response,
             $this->getClient()->stream($response),
             $this->processor,
             $this->headerDisposition,

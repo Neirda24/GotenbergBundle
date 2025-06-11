@@ -10,10 +10,7 @@ abstract class AbstractGotenbergResult
 {
     private bool $executed = false;
 
-    public function __construct(
-        protected readonly ResponseInterface $response,
-    ) {
-    }
+    abstract protected function getResponse(): ResponseInterface;
 
     protected function ensureExecution(): void
     {
@@ -22,8 +19,8 @@ abstract class AbstractGotenbergResult
         }
 
         try {
-            if (!\in_array($this->response->getStatusCode(), [200, 204], true)) {
-                throw new ClientException($this->response->getContent(false), $this->response->getStatusCode());
+            if (!\in_array($this->getResponse()->getStatusCode(), [200, 204], true)) {
+                throw new ClientException($this->getResponse()->getContent(false), $this->getResponse()->getStatusCode());
             }
         } catch (ExceptionInterface $e) {
             throw new ClientException($e->getMessage(), $e->getCode(), $e);

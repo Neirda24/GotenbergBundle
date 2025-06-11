@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sensiolabs\GotenbergBundle\Tests\Builder\Behaviors;
 
 use Sensiolabs\GotenbergBundle\Builder\BuilderInterface;
-use Sensiolabs\GotenbergBundle\Tests\Builder\GotenbergBuilderTestCase;
+use Sensiolabs\GotenbergBundle\Test\Builder\GotenbergBuilderTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

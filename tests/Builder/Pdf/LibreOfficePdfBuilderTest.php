@@ -8,8 +8,8 @@ use Sensiolabs\GotenbergBundle\Builder\Pdf\LibreOfficePdfBuilder;
 use Sensiolabs\GotenbergBundle\Enumeration\SplitMode;
 use Sensiolabs\GotenbergBundle\Exception\InvalidBuilderConfiguration;
 use Sensiolabs\GotenbergBundle\Exception\MissingRequiredFieldException;
+use Sensiolabs\GotenbergBundle\Test\Builder\GotenbergBuilderTestCase;
 use Sensiolabs\GotenbergBundle\Tests\Builder\Behaviors\LibreOfficeTestCaseTrait;
-use Sensiolabs\GotenbergBundle\Tests\Builder\GotenbergBuilderTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
