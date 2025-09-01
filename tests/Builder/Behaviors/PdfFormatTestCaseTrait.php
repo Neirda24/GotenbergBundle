@@ -43,9 +43,9 @@ trait PdfFormatTestCaseTrait
             ->pdfFormat(PdfFormat::Pdf1b)
         ;
 
-        self::assertArrayHasKey('pdfa', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('pdfa', $builder->getBodyBag()->all());
 
         $builder->pdfFormat(null);
-        self::assertArrayNotHasKey('pdfa', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('pdfa', $builder->getBodyBag()->all());
     }
 }

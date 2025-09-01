@@ -53,9 +53,9 @@ trait SplitTestCaseTrait
             ->splitMode(SplitMode::Pages)
         ;
 
-        self::assertArrayHasKey('splitMode', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('splitMode', $builder->getBodyBag()->all());
 
         $builder->splitMode(null);
-        self::assertArrayNotHasKey('splitMode', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('splitMode', $builder->getBodyBag()->all());
     }
 }

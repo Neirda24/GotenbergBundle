@@ -11,7 +11,7 @@ final class PaperSizeTest extends TestCase
 {
     public function testCaseListIsCorrect(): void
     {
-        $this->assertEquals(
+        static::assertEquals(
             ['letter', 'legal', 'tabloid', 'ledger', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6'],
             array_map(
                 static fn (PaperSize $case): string => $case->value,
@@ -22,13 +22,13 @@ final class PaperSizeTest extends TestCase
 
     public function testItImplementsPaperSizeInterface(): void
     {
-        $this->assertTrue(is_a(PaperSize::class, PaperSizeInterface::class, true)); // @phpstan-ignore function.alreadyNarrowedType
+        static::assertTrue(is_a(PaperSize::class, PaperSizeInterface::class, true)); // @phpstan-ignore function.alreadyNarrowedType
     }
 
     public function testUnitIsAlwaysInches(): void
     {
         foreach (PaperSize::cases() as $size) {
-            self::assertSame(Unit::Inches, $size->unit());
+            static::assertSame(Unit::Inches, $size->unit());
         }
     }
 

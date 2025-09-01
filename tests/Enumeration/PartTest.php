@@ -9,7 +9,7 @@ class PartTest extends TestCase
 {
     public function testCaseListIsCorrect(): void
     {
-        $this->assertEquals(
+        static::assertEquals(
             ['header.html', 'index.html', 'footer.html'],
             array_map(
                 static fn (Part $case): string => $case->value,

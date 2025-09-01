@@ -9,7 +9,7 @@ class EmulatedMediaTypeTest extends TestCase
 {
     public function testCaseListIsCorrect(): void
     {
-        $this->assertEquals(
+        static::assertEquals(
             ['print', 'screen'],
             array_map(
                 static fn (EmulatedMediaType $case): string => $case->value,

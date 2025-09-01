@@ -70,7 +70,7 @@ class GotenbergFileResultTest extends TestCase
         $fileResult = $this->getGotenbergFileResult();
 
         $result = $fileResult->process();
-        self::assertSame('finished', $result);
+        static::assertSame('finished', $result);
     }
 
     public function testProcessorIsCalledWithEveryChunkOnStream(): void
@@ -81,18 +81,18 @@ class GotenbergFileResultTest extends TestCase
 
         $headers = $streamResponse->headers->all();
 
-        self::assertArrayHasKey('x-accel-buffering', $headers);
-        self::assertSame('no', $headers['x-accel-buffering'][0]);
+        static::assertArrayHasKey('x-accel-buffering', $headers);
+        static::assertSame('no', $headers['x-accel-buffering'][0]);
 
-        self::assertArrayHasKey('content-disposition', $headers);
-        self::assertSame('attachment; filename=test.pdf', $headers['content-disposition'][0]);
+        static::assertArrayHasKey('content-disposition', $headers);
+        static::assertSame('attachment; filename=test.pdf', $headers['content-disposition'][0]);
 
         ob_start();
         $streamResponse->sendContent();
 
         $output = ob_get_clean();
 
-        self::assertSame('firstsecondlast', $output);
+        static::assertSame('firstsecondlast', $output);
     }
 
     public function testCannotProcessedAnAlreadyProcessedQuery(): void
@@ -100,7 +100,7 @@ class GotenbergFileResultTest extends TestCase
         $fileResult = $this->getGotenbergFileResult();
 
         $result = $fileResult->process();
-        self::assertSame('finished', $result);
+        static::assertSame('finished', $result);
 
         self::expectException(ProcessorException::class);
         self::expectExceptionMessage('Already processed query.');

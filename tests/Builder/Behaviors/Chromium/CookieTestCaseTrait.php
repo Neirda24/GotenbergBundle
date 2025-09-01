@@ -87,10 +87,10 @@ trait CookieTestCaseTrait
             ->setCookie('my_cookie', new Cookie('my_cookie', 'value', domain: 'symfony.com'))
         ;
 
-        self::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
 
         $builder->cookies([]);
-        self::assertArrayNotHasKey('cookies', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('cookies', $builder->getBodyBag()->all());
     }
 
     public function testSetCookieWithSimpleArray(): void
@@ -117,11 +117,11 @@ trait CookieTestCaseTrait
             ->setCookie('my_cookie', $cookie)
         ;
 
-        self::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
 
         $builder->addCookies([$cookie]);
-        self::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
-        self::assertCount(1, $builder->getBodyBag()->all()['cookies']);
+        static::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
+        static::assertCount(1, $builder->getBodyBag()->all()['cookies']);
     }
 
     public function testToForwardCookiesWithNoCurrentRequest(): void
@@ -132,7 +132,7 @@ trait CookieTestCaseTrait
             ->forwardCookie('my_cookie')
         ;
 
-        self::assertArrayNotHasKey('cookies', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('cookies', $builder->getBodyBag()->all());
     }
 
     public function testToForwardCookiesWithCurrentRequest(): void
@@ -151,7 +151,7 @@ trait CookieTestCaseTrait
             ->forwardCookie('my_cookie')
         ;
 
-        self::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('cookies', $builder->getBodyBag()->all());
     }
 
     public function testToForwardCookiesWithCurrentRequestWithoutCookies(): void
@@ -169,7 +169,7 @@ trait CookieTestCaseTrait
             ->forwardCookie('my_cookie')
         ;
 
-        self::assertArrayNotHasKey('cookies', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('cookies', $builder->getBodyBag()->all());
     }
 
     public function testRequestStackDependencyRequirementForForwardCookies(): void

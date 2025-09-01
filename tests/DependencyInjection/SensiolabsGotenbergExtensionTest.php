@@ -338,7 +338,7 @@ final class SensiolabsGotenbergExtensionTest extends KernelTestCase
 
                 /** @var array<array-key, mixed> $configurator */
                 $configurator = $definition->getConfigurator();
-                self::assertSame('sensiolabs_gotenberg.builder_configurator', (string) $configurator[0]);
+                static::assertSame('sensiolabs_gotenberg.builder_configurator', (string) $configurator[0]);
             }
         }
     }
@@ -352,7 +352,7 @@ final class SensiolabsGotenbergExtensionTest extends KernelTestCase
             'http_client' => 'http_client',
         ]], $containerBuilder);
 
-        self::assertNotContains('sensiolabs_gotenberg.data_collector', $containerBuilder->getServiceIds());
+        static::assertNotContains('sensiolabs_gotenberg.data_collector', $containerBuilder->getServiceIds());
     }
 
     public function testDataCollectorIsEnabledWhenKernelDebugIsTrue(): void
@@ -364,7 +364,7 @@ final class SensiolabsGotenbergExtensionTest extends KernelTestCase
             'http_client' => 'http_client',
         ]], $containerBuilder);
 
-        self::assertContains('sensiolabs_gotenberg.data_collector', $containerBuilder->getServiceIds());
+        static::assertContains('sensiolabs_gotenberg.data_collector', $containerBuilder->getServiceIds());
     }
 
     public function testDataCollectorIsProperlyConfiguredIfEnabled(): void
@@ -416,7 +416,7 @@ final class SensiolabsGotenbergExtensionTest extends KernelTestCase
         $dataCollector = $containerBuilder->getDefinition('sensiolabs_gotenberg.data_collector');
 
         $dataCollectorOptions = $dataCollector->getArguments()[5];
-        self::assertEquals([
+        static::assertEquals([
             'pdf' => [
                 'html' => [
                     'metadata' => [
@@ -574,12 +574,12 @@ final class SensiolabsGotenbergExtensionTest extends KernelTestCase
 
         /** @var array<array-key, mixed> $configurator */
         $configurator = $definition->getConfigurator();
-        self::assertSame('sensiolabs_gotenberg.builder_configurator', (string) $configurator[0]);
+        static::assertSame('sensiolabs_gotenberg.builder_configurator', (string) $configurator[0]);
 
         $configuratorDefinition = $containerBuilder->getDefinition('sensiolabs_gotenberg.builder_configurator');
         $values = $configuratorDefinition->getArguments()[1];
 
-        self::assertEquals($values[$definition->getClass()], $expectedConfig);
+        static::assertEquals($values[$definition->getClass()], $expectedConfig);
     }
 
     /**
@@ -881,7 +881,7 @@ final class SensiolabsGotenbergExtensionTest extends KernelTestCase
             'http_client' => 'http_client',
         ]], $containerBuilder);
 
-        self::assertContains('sensiolabs_gotenberg.http_kernel.stream_builder', $containerBuilder->getServiceIds());
+        static::assertContains('sensiolabs_gotenberg.http_kernel.stream_builder', $containerBuilder->getServiceIds());
     }
 
     public function testControllerListenerCanBeDisabled(): void
@@ -894,6 +894,6 @@ final class SensiolabsGotenbergExtensionTest extends KernelTestCase
             'controller_listener' => false,
         ]], $containerBuilder);
 
-        self::assertNotContains('sensiolabs_gotenberg.http_kernel.stream_builder', $containerBuilder->getServiceIds());
+        static::assertNotContains('sensiolabs_gotenberg.http_kernel.stream_builder', $containerBuilder->getServiceIds());
     }
 }

@@ -21,7 +21,7 @@ class InMemoryProcessorTest extends TestCase
 
         $return = $generator->getReturn();
 
-        self::assertIsString($return); // @phpstan-ignore staticMethod.alreadyNarrowedType
-        self::assertSame('abc', $return);
+        static::assertIsString($return); // @phpstan-ignore staticMethod.alreadyNarrowedType
+        static::assertSame('abc', $return);
     }
 }
