@@ -25,6 +25,7 @@ no-else-clause = { enabled = false }
 too-many-methods = { enabled = false }
 no-shorthand-ternary = { enabled = false }
 no-empty-catch-clause = { enabled = false }
+constant-name = { enabled = false }
 
 [analyzer]
 find-unused-definitions = true
