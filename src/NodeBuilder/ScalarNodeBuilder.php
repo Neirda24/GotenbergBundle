@@ -35,10 +35,10 @@ class ScalarNodeBuilder extends NodeBuilder implements NodeBuilderInterface
 
         if (\is_string($this->restrictTo)) {
             match ($this->restrictTo) {
-                'boolean' => $node->validate()->ifTrue(static fn ($option): bool => !\is_bool($option))->thenInvalid('Invalid value %s, available type is "boolean".'),
-                'string' => $node->validate()->ifTrue(static fn ($option): bool => !\is_string($option))->thenInvalid('Invalid value %s, available type is "string".'),
-                'integer' => $node->validate()->ifTrue(static fn ($option): bool => !\is_int($option))->thenInvalid('Invalid value %s, available type is "integer".'),
-                'float' => $node->validate()->ifTrue(static fn ($option): bool => !\is_float($option))->thenInvalid('Invalid value %s, available type is "float".'),
+                'boolean' => $node->validate()->ifTrue(static fn (mixed $option): bool => !\is_bool($option))->thenInvalid('Invalid value %s, available type is "boolean".'),
+                'string' => $node->validate()->ifTrue(static fn (mixed $option): bool => !\is_string($option))->thenInvalid('Invalid value %s, available type is "string".'),
+                'integer' => $node->validate()->ifTrue(static fn (mixed $option): bool => !\is_int($option))->thenInvalid('Invalid value %s, available type is "integer".'),
+                'float' => $node->validate()->ifTrue(static fn (mixed $option): bool => !\is_float($option))->thenInvalid('Invalid value %s, available type is "float".'),
             };
         }
 

@@ -18,7 +18,7 @@ class NormalizerFactory
      */
     public static function noop(): \Closure
     {
-        return static fn (string $key, mixed $value) => yield [$key => $value];
+        return static fn (string $key, mixed $value): \Generator => yield [$key => $value];
     }
 
     /**
@@ -42,7 +42,7 @@ class NormalizerFactory
      */
     public static function json(bool $associative = true): \Closure
     {
-        return static function (string $key, array $value) use ($associative) {
+        return static function (string $key, array $value) use ($associative): \Generator {
             try {
                 yield [$key => json_encode($associative ? $value : array_values($value), \JSON_THROW_ON_ERROR)];
             } catch (\JsonException $exception) {
@@ -56,7 +56,7 @@ class NormalizerFactory
      */
     public static function cookie(): \Closure
     {
-        return static function (string $key, array $value) {
+        return static function (string $key, array $value): \Generator {
             $cookies = [];
             foreach ($value as $cookie) {
                 if ($cookie instanceof Cookie) {
@@ -89,7 +89,7 @@ class NormalizerFactory
      */
     public static function bool(): \Closure
     {
-        return static fn (string $key, bool $value) => yield [$key => $value ? 'true' : 'false'];
+        return static fn (string $key, bool $value): \Generator => yield [$key => $value ? 'true' : 'false'];
     }
 
     /**
@@ -97,7 +97,7 @@ class NormalizerFactory
      */
     public static function int(): \Closure
     {
-        return static fn (string $key, int $value) => yield [$key => (string) $value];
+        return static fn (string $key, int $value): \Generator => yield [$key => (string) $value];
     }
 
     /**
@@ -105,7 +105,7 @@ class NormalizerFactory
      */
     public static function float(): \Closure
     {
-        return static function (string $key, mixed $value) {
+        return static function (string $key, mixed $value): \Generator {
             [$left, $right] = sscanf((string) $value, '%d.%s') ?? [$value, ''];
 
             return yield [$key => $left.'.'.($right ?? '0')];
@@ -117,7 +117,7 @@ class NormalizerFactory
      */
     public static function enum(): \Closure
     {
-        return static fn (string $key, \BackedEnum $value) => yield [$key => (string) $value->value];
+        return static fn (string $key, \BackedEnum $value): \Generator => yield [$key => (string) $value->value];
     }
 
     /**
@@ -125,7 +125,7 @@ class NormalizerFactory
      */
     public static function content(): \Closure
     {
-        return static function (string $key, RenderedPart|\SplFileInfo $value) {
+        return static function (string $key, RenderedPart|\SplFileInfo $value): \Generator {
             if ($value instanceof RenderedPart) {
                 yield ['files' => new DataPart($value->body, $value->type->value, 'text/html')];
             } else {
@@ -139,7 +139,7 @@ class NormalizerFactory
      */
     public static function asset(): \Closure
     {
-        return static function (string $key, array $assets) {
+        return static function (string $key, array $assets): \Generator {
             foreach ($assets as $asset) {
                 yield ['files' => new DataPart(new File($asset))];
             }
@@ -151,7 +151,7 @@ class NormalizerFactory
      */
     public static function route(RequestContext|null $requestContext, UrlGeneratorInterface $urlGenerator): \Closure
     {
-        return static function (string $key, array $value) use ($requestContext, $urlGenerator) {
+        return static function (string $key, array $value) use ($requestContext, $urlGenerator): \Generator {
             [$route, $parameters] = $value;
 
             $context = $urlGenerator->getContext();

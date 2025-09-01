@@ -154,7 +154,7 @@ class Configuration implements ConfigurationInterface
                             })
                     ->end()
                     ->validate()
-                        ->ifTrue(function ($v): bool {
+                        ->ifTrue(function (mixed $v): bool {
                             return !\is_array($v) || \count($v) !== 2 || !\is_string($v[0]) || !\is_array($v[1]);
                         })
                         ->thenInvalid('The "route" parameter must be a string or an array containing a string and an array.')
