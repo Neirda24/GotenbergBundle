@@ -63,7 +63,7 @@ final class ConfigurationTest extends TestCase
             ]],
         );
 
-        self::assertEquals(self::getBundleDefaultConfig(), $config);
+        static::assertEquals(self::getBundleDefaultConfig(), $config);
     }
 
     public function testHttpClientIsRequired(): void
@@ -134,7 +134,7 @@ final class ConfigurationTest extends TestCase
         ]);
 
         $config = $this->cleanOptions($config['default_options']['pdf']['html']);
-        self::assertEquals([
+        static::assertEquals([
             'extra_http_headers' => ['MyHeader' => 'MyValue', 'User-Agent' => 'MyAgent'],
         ], $config);
     }
@@ -162,7 +162,7 @@ final class ConfigurationTest extends TestCase
         ]);
 
         $config = $this->cleanOptions($config['default_options']['pdf']['html']);
-        self::assertEquals([
+        static::assertEquals([
             'download_from' => [
                 [
                     'url' => 'http://url/to/file.com',

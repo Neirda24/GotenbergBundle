@@ -24,7 +24,7 @@ class ChainProcessorTest extends TestCase
 
         $return = $generator->getReturn();
 
-        self::assertSame(['first: abc', 'second: abc'], $return);
+        static::assertSame(['first: abc', 'second: abc'], $return);
     }
 
     /**

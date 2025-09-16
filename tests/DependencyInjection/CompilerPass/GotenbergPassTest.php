@@ -47,11 +47,11 @@ class GotenbergPassTest extends TestCase
 
         $serviceIds = $container->getServiceIds();
 
-        self::assertNotContains('sensiolabs_gotenberg.data_collector', $serviceIds);
+        static::assertNotContains('sensiolabs_gotenberg.data_collector', $serviceIds);
 
         $compilerPass = new GotenbergPass($this->getBuilderStack());
         $compilerPass->process($container);
 
-        self::assertSame($serviceIds, $container->getServiceIds());
+        static::assertSame($serviceIds, $container->getServiceIds());
     }
 }

@@ -23,10 +23,10 @@ final class GotenbergPdfTest extends KernelTestCase
 
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(1, $data);
+        static::assertCount(1, $data);
 
-        self::assertArrayHasKey('nativePageRanges', $data);
-        self::assertSame('1-5', $data['nativePageRanges']);
+        static::assertArrayHasKey('nativePageRanges', $data);
+        static::assertSame('1-5', $data['nativePageRanges']);
     }
 
     public function testHtmlBuilderFactory(): void
@@ -45,13 +45,13 @@ final class GotenbergPdfTest extends KernelTestCase
 
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(2, $data);
+        static::assertCount(2, $data);
 
-        self::assertArrayHasKey('marginTop', $data);
-        self::assertSame('3in', $data['marginTop']);
+        static::assertArrayHasKey('marginTop', $data);
+        static::assertSame('3in', $data['marginTop']);
 
-        self::assertArrayHasKey('marginBottom', $data);
-        self::assertSame('1in', $data['marginBottom']);
+        static::assertArrayHasKey('marginBottom', $data);
+        static::assertSame('1in', $data['marginBottom']);
     }
 
     public function testMarkdownBuilderFactory(): void
@@ -68,18 +68,18 @@ final class GotenbergPdfTest extends KernelTestCase
         $builder->wrapperFile(__DIR__.'/Fixtures/files/wrapper.html');
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(2, $data);
+        static::assertCount(2, $data);
 
-        self::assertArrayHasKey('files', $data);
-        self::assertIsArray($data['files']);
+        static::assertArrayHasKey('files', $data);
+        static::assertIsArray($data['files']);
 
         $file = array_shift($data['files']);
-        self::assertInstanceOf(\SplFileInfo::class, $file);
-        self::assertSame('file.md', $file->getFilename());
+        static::assertInstanceOf(\SplFileInfo::class, $file);
+        static::assertSame('file.md', $file->getFilename());
 
-        self::assertArrayHasKey('index.html', $data);
-        self::assertInstanceOf(\SplFileInfo::class, $data['index.html']);
-        self::assertSame('wrapper.html', $data['index.html']->getFilename());
+        static::assertArrayHasKey('index.html', $data);
+        static::assertInstanceOf(\SplFileInfo::class, $data['index.html']);
+        static::assertSame('wrapper.html', $data['index.html']->getFilename());
     }
 
     /**
@@ -108,14 +108,14 @@ final class GotenbergPdfTest extends KernelTestCase
         $builder->files($path);
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(1, $data);
+        static::assertCount(1, $data);
 
-        self::assertArrayHasKey('files', $data);
-        self::assertIsArray($data['files']);
+        static::assertArrayHasKey('files', $data);
+        static::assertIsArray($data['files']);
 
         $firstFile = array_shift($data['files']);
-        self::assertInstanceOf(\SplFileInfo::class, $firstFile);
-        self::assertSame($filename, $firstFile->getFilename());
+        static::assertInstanceOf(\SplFileInfo::class, $firstFile);
+        static::assertSame($filename, $firstFile->getFilename());
     }
 
     public function testMergeBuilderFactory(): void
@@ -135,21 +135,21 @@ final class GotenbergPdfTest extends KernelTestCase
         $builder->pdfUniversalAccess();
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(2, $data);
+        static::assertCount(2, $data);
 
-        self::assertArrayHasKey('files', $data);
-        self::assertIsArray($data['files']);
+        static::assertArrayHasKey('files', $data);
+        static::assertIsArray($data['files']);
 
         $firstFile = array_shift($data['files']);
-        self::assertInstanceOf(\SplFileInfo::class, $firstFile);
-        self::assertSame('document.pdf', $firstFile->getFilename());
+        static::assertInstanceOf(\SplFileInfo::class, $firstFile);
+        static::assertSame('document.pdf', $firstFile->getFilename());
 
         $lastFile = array_pop($data['files']);
-        self::assertInstanceOf(\SplFileInfo::class, $lastFile);
-        self::assertSame('other_document.pdf', $lastFile->getFilename());
+        static::assertInstanceOf(\SplFileInfo::class, $lastFile);
+        static::assertSame('other_document.pdf', $lastFile->getFilename());
 
-        self::assertArrayHasKey('pdfua', $data);
-        self::assertTrue($data['pdfua']);
+        static::assertArrayHasKey('pdfua', $data);
+        static::assertTrue($data['pdfua']);
     }
 
     public function testConvertBuilderFactory(): void
@@ -166,17 +166,17 @@ final class GotenbergPdfTest extends KernelTestCase
         $builder->pdfFormat(PdfFormat::Pdf1b);
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(2, $data);
+        static::assertCount(2, $data);
 
-        self::assertArrayHasKey('files', $data);
-        self::assertIsArray($data['files']);
+        static::assertArrayHasKey('files', $data);
+        static::assertIsArray($data['files']);
 
         $firstFile = array_shift($data['files']);
-        self::assertInstanceOf(\SplFileInfo::class, $firstFile);
-        self::assertSame('document.pdf', $firstFile->getFilename());
+        static::assertInstanceOf(\SplFileInfo::class, $firstFile);
+        static::assertSame('document.pdf', $firstFile->getFilename());
 
-        self::assertArrayHasKey('pdfa', $data);
-        self::assertSame(PdfFormat::Pdf1b, $data['pdfa']);
+        static::assertArrayHasKey('pdfa', $data);
+        static::assertSame(PdfFormat::Pdf1b, $data['pdfa']);
     }
 
     public function testSplitBuilderFactory(): void
@@ -196,23 +196,23 @@ final class GotenbergPdfTest extends KernelTestCase
 
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(4, $data);
+        static::assertCount(4, $data);
 
-        self::assertArrayHasKey('files', $data);
-        self::assertIsArray($data['files']);
+        static::assertArrayHasKey('files', $data);
+        static::assertIsArray($data['files']);
 
         $firstFile = array_shift($data['files']);
-        self::assertInstanceOf(\SplFileInfo::class, $firstFile);
-        self::assertSame('document.pdf', $firstFile->getFilename());
+        static::assertInstanceOf(\SplFileInfo::class, $firstFile);
+        static::assertSame('document.pdf', $firstFile->getFilename());
 
-        self::assertArrayHasKey('splitMode', $data);
-        self::assertSame(SplitMode::Pages, $data['splitMode']);
+        static::assertArrayHasKey('splitMode', $data);
+        static::assertSame(SplitMode::Pages, $data['splitMode']);
 
-        self::assertArrayHasKey('splitSpan', $data);
-        self::assertSame('1-2', $data['splitSpan']);
+        static::assertArrayHasKey('splitSpan', $data);
+        static::assertSame('1-2', $data['splitSpan']);
 
-        self::assertArrayHasKey('splitUnify', $data);
-        self::assertTrue($data['splitUnify']);
+        static::assertArrayHasKey('splitUnify', $data);
+        static::assertTrue($data['splitUnify']);
     }
 
     public function testFlattenBuilderFactory(): void
@@ -229,13 +229,13 @@ final class GotenbergPdfTest extends KernelTestCase
 
         $data = $builder->getBodyBag()->all();
 
-        self::assertCount(1, $data);
+        static::assertCount(1, $data);
 
-        self::assertArrayHasKey('files', $data);
-        self::assertIsArray($data['files']);
+        static::assertArrayHasKey('files', $data);
+        static::assertIsArray($data['files']);
 
         $firstFile = array_shift($data['files']);
-        self::assertInstanceOf(\SplFileInfo::class, $firstFile);
-        self::assertSame('document.pdf', $firstFile->getFilename());
+        static::assertInstanceOf(\SplFileInfo::class, $firstFile);
+        static::assertSame('document.pdf', $firstFile->getFilename());
     }
 }

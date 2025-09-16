@@ -39,7 +39,7 @@ final class FlysystemProcessor implements ProcessorInterface
 
             $this->logger?->debug('{processor}: content dumped to "{file}".', ['processor' => self::class, 'file' => $fileName]);
 
-            return function () use ($fileName) {
+            return function () use ($fileName): string {
                 return $this->filesystemOperator->read($fileName); // use readStream instead ?
             };
         } catch (\Throwable $t) {

@@ -18,7 +18,7 @@ class GotenbergRuntimeTest extends TestCase
             ->with('foo')
         ;
         $runtime->setBuilder($builder);
-        $this->assertSame('foo', $runtime->getAssetUrl('foo'));
+        static::assertSame('foo', $runtime->getAssetUrl('foo'));
     }
 
     public function testGetAssetThrowsWhenBuilderIsNotSet(): void
@@ -39,7 +39,7 @@ class GotenbergRuntimeTest extends TestCase
             ->with('foo.ttf')
         ;
         $runtime->setBuilder($builder);
-        $this->assertSame(
+        static::assertSame(
             '@font-face {font-family: "my_font";src: url("foo.ttf");}',
             $runtime->getFontFace('foo.ttf', 'my_font'),
         );
@@ -55,7 +55,7 @@ class GotenbergRuntimeTest extends TestCase
             ->with('foo.ttf')
         ;
         $runtime->setBuilder($builder);
-        $this->assertSame(
+        static::assertSame(
             '<style>@font-face {font-family: "my_font";src: url("foo.ttf");}</style>',
             $runtime->getFontStyleTag('foo.ttf', 'my_font'),
         );

@@ -24,11 +24,11 @@ final class GotenbergScreenshotTest extends KernelTestCase
 
         $data = $builder->getBodyBag()->all();
 
-        self::assertArrayHasKey('width', $data);
-        self::assertSame(500, $data['width']);
+        static::assertArrayHasKey('width', $data);
+        static::assertSame(500, $data['width']);
 
-        self::assertArrayHasKey('height', $data);
-        self::assertSame(200, $data['height']);
+        static::assertArrayHasKey('height', $data);
+        static::assertSame(200, $data['height']);
     }
 
     public function testHtmlBuilderFactory(): void
@@ -48,11 +48,11 @@ final class GotenbergScreenshotTest extends KernelTestCase
 
         $data = $builder->getBodyBag()->all();
 
-        self::assertArrayHasKey('width', $data);
-        self::assertSame(500, $data['width']);
+        static::assertArrayHasKey('width', $data);
+        static::assertSame(500, $data['width']);
 
-        self::assertArrayHasKey('height', $data);
-        self::assertSame(200, $data['height']);
+        static::assertArrayHasKey('height', $data);
+        static::assertSame(200, $data['height']);
     }
 
     public function testMarkdownBuilderFactory(): void
@@ -74,19 +74,19 @@ final class GotenbergScreenshotTest extends KernelTestCase
 
         $data = $builder->getBodyBag()->all();
 
-        self::assertArrayHasKey('files', $data);
+        static::assertArrayHasKey('files', $data);
 
         $files = $data['files'];
-        self::assertArrayHasKey(__DIR__.'/Fixtures/assets/file.md', $files);
-        self::assertInstanceOf(\SplFileInfo::class, $files[__DIR__.'/Fixtures/assets/file.md']);
+        static::assertArrayHasKey(__DIR__.'/Fixtures/assets/file.md', $files);
+        static::assertInstanceOf(\SplFileInfo::class, $files[__DIR__.'/Fixtures/assets/file.md']);
 
-        self::assertArrayHasKey('index.html', $data);
-        self::assertInstanceOf(\SplFileInfo::class, $data['index.html']);
+        static::assertArrayHasKey('index.html', $data);
+        static::assertInstanceOf(\SplFileInfo::class, $data['index.html']);
 
-        self::assertArrayHasKey('width', $data);
-        self::assertSame(500, $data['width']);
+        static::assertArrayHasKey('width', $data);
+        static::assertSame(500, $data['width']);
 
-        self::assertArrayHasKey('height', $data);
-        self::assertSame(200, $data['height']);
+        static::assertArrayHasKey('height', $data);
+        static::assertSame(200, $data['height']);
     }
 }

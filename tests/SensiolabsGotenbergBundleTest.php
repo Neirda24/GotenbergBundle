@@ -14,7 +14,7 @@ class SensiolabsGotenbergBundleTest extends TestCase
         $bundle = new SensiolabsGotenbergBundle();
         $reflection = new \ReflectionClass($bundle);
 
-        self::assertSame(\dirname($reflection->getFileName() ?: '', 2), $bundle->getPath());
+        static::assertSame(\dirname($reflection->getFileName() ?: '', 2), $bundle->getPath());
     }
 
     private function getContainerBuilder(): ContainerBuilder
@@ -30,14 +30,14 @@ class SensiolabsGotenbergBundleTest extends TestCase
         $originalCompilerPasses = $container->getCompilerPassConfig()->getPasses();
 
         $extension = $bundle->getContainerExtension();
-        self::assertNotNull($extension);
+        static::assertNotNull($extension);
 
         $container->registerExtension($extension);
         $bundle->build($container);
 
         $currentCompilerPasses = $container->getCompilerPassConfig()->getPasses();
 
-        self::assertNotEquals($originalCompilerPasses, $currentCompilerPasses);
+        static::assertNotEquals($originalCompilerPasses, $currentCompilerPasses);
         $toClass = static fn (object $object): string => $object::class;
 
         $newPasses = array_diff(
@@ -45,6 +45,6 @@ class SensiolabsGotenbergBundleTest extends TestCase
             array_map($toClass, $originalCompilerPasses),
         );
 
-        self::assertContains(GotenbergPass::class, $newPasses);
+        static::assertContains(GotenbergPass::class, $newPasses);
     }
 }

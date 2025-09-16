@@ -252,10 +252,10 @@ trait PagePropertiesTestCaseTrait
             ->maxImageResolution(ImageResolutionDPI::DPI150)
         ;
 
-        self::assertArrayHasKey('maxImageResolution', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('maxImageResolution', $builder->getBodyBag()->all());
 
         $builder->maxImageResolution(null);
-        self::assertArrayNotHasKey('maxImageResolution', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('maxImageResolution', $builder->getBodyBag()->all());
     }
 
     public function testDoNotUpdateIndexes(): void

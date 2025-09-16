@@ -42,9 +42,9 @@ trait DownloadFromTestCaseTrait
             ])
         ;
 
-        self::assertArrayHasKey('downloadFrom', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('downloadFrom', $builder->getBodyBag()->all());
 
         $builder->downloadFrom([]);
-        self::assertArrayNotHasKey('downloadFrom', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('downloadFrom', $builder->getBodyBag()->all());
     }
 }

@@ -35,9 +35,9 @@ final class GotenbergClientTest extends TestCase
         $gotenbergClient = new GotenbergClient($mockClient);
         $response = $gotenbergClient->call('/some/url', $payload);
 
-        self::assertSame(1, $mockClient->getRequestsCount());
-        self::assertSame('POST', $mockResponse->getRequestMethod());
-        self::assertSame('http://localhost:3000/some/url', $mockResponse->getRequestUrl());
+        static::assertSame(1, $mockClient->getRequestsCount());
+        static::assertSame('POST', $mockResponse->getRequestMethod());
+        static::assertSame('http://localhost:3000/some/url', $mockResponse->getRequestUrl());
 
         $requestHeaders = array_reduce($mockResponse->getRequestOptions()['headers'], static function (array $carry, string $header): array {
             [$key, $value] = explode(': ', $header, 2);
@@ -48,18 +48,18 @@ final class GotenbergClientTest extends TestCase
             return $carry;
         }, []);
 
-        self::assertArrayHasKey('SomeHeader', $requestHeaders);
-        self::assertSame('SomeValue', $requestHeaders['SomeHeader'][0]);
+        static::assertArrayHasKey('SomeHeader', $requestHeaders);
+        static::assertSame('SomeValue', $requestHeaders['SomeHeader'][0]);
 
-        self::assertArrayHasKey('Content-Type', $requestHeaders);
+        static::assertArrayHasKey('Content-Type', $requestHeaders);
         $requestContentType = $requestHeaders['Content-Type'][0];
 
-        self::assertMatchesRegularExpression('#^multipart/form-data; boundary=(?P<boundary>.*)$#', $requestContentType);
+        static::assertMatchesRegularExpression('#^multipart/form-data; boundary=(?P<boundary>.*)$#', $requestContentType);
 
         $responseHeaders = $response->getHeaders();
-        self::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        self::assertSame('application/pdf', $responseHeaders['content-type'][0]);
-        self::assertSame('attachment; filename="simple_pdf.pdf"', $responseHeaders['content-disposition'][0]);
-        self::assertSame('13624', $responseHeaders['content-length'][0]);
+        static::assertSame(Response::HTTP_OK, $response->getStatusCode());
+        static::assertSame('application/pdf', $responseHeaders['content-type'][0]);
+        static::assertSame('attachment; filename="simple_pdf.pdf"', $responseHeaders['content-disposition'][0]);
+        static::assertSame('13624', $responseHeaders['content-length'][0]);
     }
 }

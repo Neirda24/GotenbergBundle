@@ -42,10 +42,10 @@ trait CustomHttpHeadersTestCaseTrait
             ->extraHttpHeaders(['my_header' => 'my_value'])
         ;
 
-        self::assertArrayHasKey('extraHttpHeaders', $builder->getBodyBag()->all());
+        static::assertArrayHasKey('extraHttpHeaders', $builder->getBodyBag()->all());
 
         $builder->extraHttpHeaders([]);
-        self::assertArrayNotHasKey('extraHttpHeaders', $builder->getBodyBag()->all());
+        static::assertArrayNotHasKey('extraHttpHeaders', $builder->getBodyBag()->all());
     }
 
     public function testAddExtraHttpHeadersToExistingHeaders(): void

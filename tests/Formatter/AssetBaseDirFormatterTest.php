@@ -27,6 +27,6 @@ final class AssetBaseDirFormatterTest extends TestCase
     {
         $assetBaseDirFormatter = new AssetBaseDirFormatter('/mock', $baseDirectory);
         $resolvedPath = $assetBaseDirFormatter->resolve($path);
-        self::assertSame($expectedResult, $resolvedPath);
+        static::assertSame($expectedResult, $resolvedPath);
     }
 }
