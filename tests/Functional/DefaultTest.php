@@ -8,7 +8,15 @@ class DefaultTest extends AbstractGotenbergWebTestCase
     {
         $this->expectNotToPerformAssertions();
 
-        $kernel = static::createKernel(['test_case' => 'Default']);
-        $kernel->boot();
+        static::bootKernel(['test_case' => 'Default']);
+    }
+
+    public function testWebhookConfigurationRegistryIsPopulated(): void
+    {
+        static::bootKernel(['test_case' => 'Default']);
+
+        $webhookConfigurationRegistry = self::getContainer()->get('.sensiolabs_gotenberg.webhook_configuration_registry');
+
+        self::assertEqualsCanonicalizing([], $webhookConfigurationRegistry->get('some_webhook'));
     }
 }

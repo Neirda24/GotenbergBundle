@@ -170,6 +170,13 @@ class SensiolabsGotenbergExtension extends Extension
             ->replaceArgument(0, $this->builderStack->getConfigMapping())
             ->replaceArgument(1, $configValueMapping)
         ;
+
+        // Webhooks
+        $webhookConfigurationRegistryDefinition = $container->getDefinition('.sensiolabs_gotenberg.webhook_configuration_registry');
+
+        foreach ($defaultConfiguration['webhook'] as $name => $configuration) {
+            $webhookConfigurationRegistryDefinition->addMethodCall('add', [$name, $configuration]);
+        }
     }
 
     /**

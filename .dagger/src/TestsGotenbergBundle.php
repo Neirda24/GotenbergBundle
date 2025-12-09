@@ -7,8 +7,11 @@ namespace DaggerModule;
 use Dagger\Attribute\DaggerFunction;
 use Dagger\Attribute\DaggerObject;
 use Dagger\Attribute\Doc;
+use Dagger\Attribute\ListOfType;
 use Dagger\Attribute\ReturnsListOfType;
 use Dagger\Container;
+use Dagger\ReturnType;
+use GraphQL\Exception\QueryError;
 use function Amp\async;
 use function Amp\Future\await;
 
@@ -30,7 +33,7 @@ final class TestsGotenbergBundle
 
     private function getSymfonyVersion(): string
     {
-        return $this->symfonyVersion ??= $this->symfonyContainer->envVariable('SYMFONY_REQUIRE');
+        return $this->symfonyVersion ??= $this->symfonyContainer->envVariable('SYMFONY_VERSION_CONSTRAINT');
     }
 
     #[DaggerFunction]
@@ -72,17 +75,43 @@ final class TestsGotenbergBundle
 
     #[DaggerFunction]
     #[Doc('Run phpunit tests and returns the container it ran in.')]
-    public function phpunit(string $filter = ''): string
+    #[ReturnsListOfType('string')]
+    public function phpunit(string $filter = ''): array
     {
+        $title = "Running tests for PHP {$this->getPhpVersion()}, Symfony {$this->getSymfonyVersion()}";
+        $result = [
+            $title,
+            str_repeat('=', \strlen($title))."\n",
+        ];
+
         $exec = ['./vendor/bin/phpunit', '--display-all-issues'];
         if ('' !== $filter) {
             $exec[] = "--filter={$filter}";
         }
 
-        return $this->symfonyContainer
-            ->withExec($exec)
-            ->stdout()
+        $result[] = '$ '. implode(' ', $exec) . "\n";
+
+        $phpunitResult = $this->symfonyContainer
+            ->withExec($exec, expect: ReturnType::ANY)
         ;
+
+        $exitCode = $phpunitResult->exitCode();
+        $phpunitOutput = $phpunitResult->stdout();
+
+        $result[] = $phpunitOutput;
+
+        if (0 !== $exitCode) {
+            throw new QueryError(['errors' => [[
+                'message' => 'There were issues with phpunit tests.',
+                'extensions' => [
+                    'exitCode' => $exitCode,
+                    'stdout' => implode("\n", $result),
+                    'stderr' => $phpunitResult->stderr(),
+                ]],
+            ]]);
+        }
+
+        return $result;
     }
 
     #[DaggerFunction]

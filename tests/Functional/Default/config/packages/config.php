@@ -7,7 +7,7 @@ return function (ContainerConfigurator $container): void {
         'test' => true,
         'http_client' => [
             'scoped_clients' => [
-                'gotenberg' => [
+                'gotenberg.client' => [
                     'base_uri' => 'http://localhost:9000',
                 ],
             ],
@@ -15,6 +15,16 @@ return function (ContainerConfigurator $container): void {
     ]);
 
     $container->extension('sensiolabs_gotenberg', [
-        'http_client' => 'gotenberg',
+        'http_client' => 'gotenberg.client',
+        'webhook' => [
+            'some_webhook' => [
+                'success' => [
+                    'url' => 'https://example.com/success',
+                ],
+                'error' => [
+                    'url' => 'https://example.com/error',
+                ],
+            ],
+        ],
     ]);
 };
