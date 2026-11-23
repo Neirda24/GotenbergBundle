@@ -13,7 +13,7 @@ use Dagger\Directory;
 use Dagger\Secret;
 use DaggerModule\Ci\ActionsUp;
 use DaggerModule\Ci\Zizmor;
-use function Dagger\dag;
+use function Dagger\core;
 
 #[DaggerObject]
 final class CiGotenbergBundle
@@ -24,12 +24,12 @@ final class CiGotenbergBundle
     private Directory $app;
 
     public function __construct(
-        #[DefaultPath('./.github/')]
+        #[DefaultPath('/.github/')]
         Directory $source,
 
         Secret|null $ghAuthToken = null,
     ) {
-        $this->app = dag()->directory()->withDirectory('./.github', $source);
+        $this->app = core()->directory()->withDirectory('./.github', $source);
 
         $this->zizmor = new Zizmor($this->app, $ghAuthToken);
         $this->actionsUp = new ActionsUp($this->app);

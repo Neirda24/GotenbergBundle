@@ -1,0 +1,5 @@
+name = "GotenbergBundle"
+
+[entrypoint]
+  kind = "dang"
+  source = "./sdk/entrypoint"

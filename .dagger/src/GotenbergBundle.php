@@ -20,7 +20,7 @@ use Dagger\Service;
 use DaggerModule\Test\PhpCsFixer;
 use function Amp\async;
 use function Amp\Future\await;
-use function Dagger\dag;
+use function Dagger\core;
 
 #[DaggerObject]
 #[Doc('Module for GotenbergBundle')]
@@ -31,7 +31,7 @@ class GotenbergBundle
     private function gotenbergContainer(
         string $gotenbergVersion = self::DEFAULT_GOTENBERG_VERSION,
     ): Container {
-        return dag()
+        return core()
             ->container()
             ->from("gotenberg/gotenberg:{$gotenbergVersion}")
         ;
@@ -50,12 +50,12 @@ class GotenbergBundle
         Directory $source,
         string $phpVersion,
     ): Container {
-        $aptCache = dag()->cacheVolume("apt-cache-{$phpVersion}");
-        $composerBin = dag()->container()->from('composer/composer:latest-bin')->file('/composer');
+        $aptCache = core()->cacheVolume("apt-cache-{$phpVersion}");
+        $composerBin = core()->container()->from('composer/composer:latest-bin')->file('/composer');
 
-        $composerCache = dag()->cacheVolume('composer-cache');
+        $composerCache = core()->cacheVolume('composer-cache');
 
-        $phpContainer = dag()
+        $phpContainer = core()
             ->container()
             ->from("php:{$phpVersion}")
             ->withMountedCache('/var/cache/apt/archives', $aptCache)
@@ -115,7 +115,7 @@ class GotenbergBundle
      */
     private function fetchJson(string $url): array
     {
-        return json_decode(dag()->http($url)->contents(), associative: true, flags: \JSON_THROW_ON_ERROR);
+        return json_decode(core()->http($url)->contents(), associative: true, flags: \JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -231,7 +231,7 @@ class GotenbergBundle
     #[DaggerFunction]
     #[Doc('Output the test matrix (maintained Symfony versions x supported PHP versions) as JSON.')]
     public function matrix(
-        #[DefaultPath('.')]
+        #[DefaultPath('/')]
         #[Ignore(
             './.github/',
             './.phpunit.cache/',
@@ -247,7 +247,7 @@ class GotenbergBundle
     #[DaggerFunction]
     #[Doc('Generates documentation and returns the ChangeSet to apply locally.')]
     public function generateDocs(
-        #[DefaultPath('.')]
+        #[DefaultPath('/')]
         #[Ignore(
             './.github/',
             './.phpunit.cache/',
@@ -260,18 +260,18 @@ class GotenbergBundle
     ): Changeset {
         $symfonyContainer ??= $this->symfonyContainer($source);
 
-        $generatedDocs = dag()->directory()->withDirectory('./docs', $symfonyContainer
+        $generatedDocs = core()->directory()->withDirectory('./docs', $symfonyContainer
             ->withExec(['./docs/generate.php'])
             ->directory('./docs'),
         );
 
-        return $generatedDocs->changes(dag()->directory()->withDirectory('./docs', $source->directory('./docs')));
+        return $generatedDocs->changes(core()->directory()->withDirectory('./docs', $source->directory('./docs')));
     }
 
     #[DaggerFunction]
     #[Doc('Run php-cs-fixer. Returns the Directory diff.')]
     public function phpCsFixer(
-        #[DefaultPath('.')]
+        #[DefaultPath('/')]
         #[Ignore(
             './.github/',
             './.phpunit.cache/',
@@ -290,7 +290,7 @@ class GotenbergBundle
     #[DaggerFunction]
     #[Doc('Provide a container with all dependencies installed and ready to run tests.')]
     public function ci(
-        #[DefaultPath('./.github/')]
+        #[DefaultPath('/.github/')]
         Directory $source,
 
         Secret|null $ghAuthToken = null,
@@ -301,7 +301,7 @@ class GotenbergBundle
     #[DaggerFunction]
     #[Doc('Provide a container with all dependencies installed and ready to run tests.')]
     public function test(
-        #[DefaultPath('.')]
+        #[DefaultPath('/')]
         #[Ignore(
             './.github/',
             './.phpunit.cache/',
@@ -326,7 +326,7 @@ class GotenbergBundle
     #[Doc('Execute all tests within matrix (PHP version, Symfony version).')]
     #[ReturnsListOfType(TestsGotenbergBundle::class)]
     public function testsMatrix(
-        #[DefaultPath('.')]
+        #[DefaultPath('/')]
         #[Ignore(
             './.github/',
             './.phpunit.cache/',

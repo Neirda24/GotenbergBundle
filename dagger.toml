@@ -1,0 +1,12 @@
+[modules.GotenbergBundle]
+source = ".dagger"
+main = true
+
+[modules.dagger-php-sdk]
+source = "github.com/dagger/php-sdk@main"
+
+[sdks.php]
+module = "dagger-php-sdk"
+
+[sdks.php.scopes.".dagger"]
+is-module = true

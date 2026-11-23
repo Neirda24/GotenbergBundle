@@ -1,3 +1,5 @@
-/sdk
 /vendor
 /.env
+!/composer.lock
+!/sdk/
+!/sdk/**

@@ -12,7 +12,7 @@ use Dagger\Changeset;
 use Dagger\Container;
 use Dagger\Directory;
 use GraphQL\Exception\QueryError;
-use function Dagger\dag;
+use function Dagger\core;
 
 #[DaggerObject]
 final class PhpCsFixer
@@ -20,7 +20,7 @@ final class PhpCsFixer
     private Container $symfonyContainer;
 
     public function __construct(
-        #[DefaultPath('.')]
+        #[DefaultPath('/')]
         private Directory $source,
         Container $symfonyContainer,
     ) {
@@ -34,7 +34,7 @@ final class PhpCsFixer
     public function fix(): Changeset
     {
         $directoryFormatter = static function (Directory $directory): Directory {
-            $result = dag()->directory();
+            $result = core()->directory();
 
             $paths = [
                 './.dagger/src',

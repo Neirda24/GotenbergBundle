@@ -44,10 +44,11 @@ Ensure your changes work as expected by running the test suite:
 ### With dagger (recommended)
 #### Requirements
 
-Make sure you have [dagger >= v0.19.7](https://docs.dagger.io/install) installed. Then run
+Make sure you have [dagger v1.0.0-beta.28](https://docs.dagger.io/install) installed.
+After changing the module in `.dagger/src`, run
 
 ```shell
-$ dagger develop
+$ dagger generate
 ```
 
 #### Run Tests

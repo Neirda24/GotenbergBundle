@@ -25,12 +25,13 @@ sources (URLs, HTML, Markdown, Office documents, etc.).
 
 ## Testing instructions with dagger (recommended)
 
-- Use [dagger >= v0.18.10](https://docs.dagger.io/install)
+- Use [dagger v1.0.0-beta.28](https://docs.dagger.io/install)
+- Run `dagger generate` after changing the module in `.dagger/src`.
 - Run `dagger call test --symfony-version '6.4.*' --php-version '8.2' phpunit`
 for 'unit' test suite with specific symfony or / and php version.
 - Run `dagger call test --symfony-version '6.4.*' --php-version '8.2' validate-dependencies`
 to make sure all dependencies are explicitly added to composer.json.
-- Run `dagger call generate-docs export --path ./docs` to generate the auto API
+- Run `dagger call --auto-apply generate-docs` to generate the auto API
 documentation for builders
 - Run `dagger call test --symfony-version '6.4.*' --php-version '8.2' all` to
 test with specific symfony / php versions

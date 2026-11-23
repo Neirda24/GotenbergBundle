@@ -10,7 +10,7 @@ use Dagger\Attribute\Doc;
 use Dagger\Changeset;
 use Dagger\Container;
 use Dagger\Directory;
-use function Dagger\dag;
+use function Dagger\core;
 
 #[DaggerObject]
 final class ActionsUp
@@ -20,7 +20,7 @@ final class ActionsUp
     public function __construct(
         private Directory $source,
     ) {
-        $this->actionsUpContainer = dag()->container()->from('node:26-alpine')
+        $this->actionsUpContainer = core()->container()->from('node:26-alpine')
             ->withMountedDirectory('/app', $source)
             ->withWorkdir('/app')
         ;
