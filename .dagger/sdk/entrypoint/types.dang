@@ -39,30 +39,57 @@ type ModuleTypes {
         .withFunction(
           function("matrix", typeDef.withKind(TypeDefKind.STRING_KIND))
             .withDescription("Output the test matrix (maintained Symfony versions x supported PHP versions) as JSON.")
-            .withArg("source", typeDef.withObject("Directory"), defaultPath: "/", ignore: ["./.github/", "./.phpunit.cache/", "./.coverage/", "./var/", "./vendor/"])
+        )
+        .withFunction(
+          function("phpstan", typeDef.withKind(TypeDefKind.VOID_KIND))
+            .withDescription("Static analysis with PHPStan, on the default PHP and Symfony versions.")
+            .withCheck
+        )
+        .withFunction(
+          function("phpunit", typeDef.withKind(TypeDefKind.VOID_KIND))
+            .withDescription("PHPUnit test suite, on the default PHP and Symfony versions.")
+            .withCheck
+        )
+        .withFunction(
+          function("dependencies", typeDef.withKind(TypeDefKind.VOID_KIND))
+            .withDescription("Every dependency the code uses is declared in composer.json.")
+            .withCheck
+        )
+        .withFunction(
+          function("zizmor", typeDef.withKind(TypeDefKind.VOID_KIND))
+            .withDescription("Audit of the GitHub workflows with zizmor.")
+            .withCheck
         )
         .withFunction(
           function("generateDocs", typeDef.withObject("Changeset"))
             .withDescription("Generates documentation and returns the ChangeSet to apply locally.")
-            .withArg("source", typeDef.withObject("Directory"), defaultPath: "/", ignore: ["./.github/", "./.phpunit.cache/", "./.coverage/", "./var/", "./vendor/"])
+            .withGenerator
             .withArg("symfonyContainer", typeDef.withOptional(true).withObject("Container"))
+        )
+        .withFunction(
+          function("codingStyle", typeDef.withObject("Changeset"))
+            .withDescription("Fix the coding style with php-cs-fixer.")
+            .withGenerator
+        )
+        .withFunction(
+          function("gotenberg", typeDef.withObject("Service"))
+            .withDescription("A Gotenberg server on port 3000.")
+            .withUp
+            .withArg("gotenbergVersion", typeDef.withKind(TypeDefKind.STRING_KIND), defaultValue: ("\"8.0\"" :: Dagger.JSON!))
         )
         .withFunction(
           function("phpCsFixer", typeDef.withObject("Test\\PhpCsFixer"))
             .withDescription("Run php-cs-fixer. Returns the Directory diff.")
-            .withArg("source", typeDef.withObject("Directory"), defaultPath: "/", ignore: ["./.github/", "./.phpunit.cache/", "./.coverage/", "./var/", "./vendor/"])
             .withArg("symfonyContainer", typeDef.withOptional(true).withObject("Container"))
         )
         .withFunction(
           function("ci", typeDef.withObject("CiGotenbergBundle"))
             .withDescription("Provide a container with all dependencies installed and ready to run tests.")
-            .withArg("source", typeDef.withObject("Directory"), defaultPath: "/.github/")
             .withArg("ghAuthToken", typeDef.withOptional(true).withObject("Secret"))
         )
         .withFunction(
           function("test", typeDef.withObject("TestsGotenbergBundle"))
             .withDescription("Provide a container with all dependencies installed and ready to run tests.")
-            .withArg("source", typeDef.withObject("Directory"), defaultPath: "/", ignore: ["./.github/", "./.phpunit.cache/", "./.coverage/", "./var/", "./vendor/"])
             .withArg("phpVersion", typeDef.withOptional(true).withKind(TypeDefKind.STRING_KIND), description: "Defaults to the minimum PHP version of the latest stable Symfony version.")
             .withArg("symfonyVersion", typeDef.withOptional(true).withKind(TypeDefKind.STRING_KIND), description: "Defaults to the latest stable Symfony version.")
             .withArg("minimumStability", typeDef.withKind(TypeDefKind.STRING_KIND), defaultValue: ("\"stable\"" :: Dagger.JSON!))
@@ -71,10 +98,10 @@ type ModuleTypes {
         .withFunction(
           function("testsMatrix", typeDef.withListOf(typeDef.withObject("TestsGotenbergBundle")))
             .withDescription("Execute all tests within matrix (PHP version, Symfony version).")
-            .withArg("source", typeDef.withObject("Directory"), defaultPath: "/", ignore: ["./.github/", "./.phpunit.cache/", "./.coverage/", "./var/", "./vendor/"])
         )
         .withConstructor(
           function("", typeDef.withObject("GotenbergBundle"))
+            .withArg("ws", typeDef.withObject("Workspace"))
         ),
       typeDef.withObject("Test\\PhpCsFixer")
         .withFunction(
