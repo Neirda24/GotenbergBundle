@@ -15,6 +15,8 @@ use function Dagger\core;
 #[DaggerObject]
 final class ActionsUp
 {
+    private const PACKAGE = 'actions-up@2.1.0';
+
     private Container $actionsUpContainer;
 
     public function __construct(
@@ -33,7 +35,7 @@ final class ActionsUp
             ->withExec([
                 'npx',
                 '-y',
-                'actions-up',
+                self::PACKAGE,
                 '--dry-run',
                 '--json',
             ])
@@ -62,7 +64,7 @@ final class ActionsUp
                 ->withExec([
                     'npx',
                     '-y',
-                    'actions-up',
+                    self::PACKAGE,
                     '--dry-run',
                     '--yes',
                 ])
@@ -82,7 +84,7 @@ final class ActionsUp
             ->withExec([
                 'npx',
                 '-y',
-                'actions-up',
+                self::PACKAGE,
                 '--yes',
             ])
             ->directory('/app')
