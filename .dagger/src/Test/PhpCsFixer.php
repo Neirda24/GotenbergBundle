@@ -16,6 +16,8 @@ use function Dagger\core;
 #[DaggerObject]
 final class PhpCsFixer
 {
+    private const PACKAGE = 'friendsofphp/php-cs-fixer:3.95.32';
+
     private Container $symfonyContainer;
 
     public function __construct(
@@ -23,7 +25,7 @@ final class PhpCsFixer
         Container $symfonyContainer,
     ) {
         $this->symfonyContainer = $symfonyContainer
-            ->withExec(['composer', 'global', 'require', 'friendsofphp/php-cs-fixer'])
+            ->withExec(['composer', 'global', 'require', self::PACKAGE])
         ;
     }
 
