@@ -12,7 +12,7 @@ use Dagger\Container;
 use Dagger\Directory;
 use Dagger\ReturnType;
 use Dagger\Secret;
-use function Dagger\dag;
+use function Dagger\core;
 
 #[DaggerObject]
 final class Zizmor
@@ -25,11 +25,11 @@ final class Zizmor
         private Directory $source,
         Secret|null $ghAuthToken = null,
     ) {
-        $zizmorContainer = dag()->container()->from(self::ZIZMOR_IMAGE);
+        $zizmorContainer = core()->container()->from(self::ZIZMOR_IMAGE);
 
         $zizmorContainer = $zizmorContainer
             ->withMountedDirectory('/app', $this->source)
-            ->withMountedCache('/zizmor-cache', dag()->cacheVolume('zizmor'))
+            ->withMountedCache('/zizmor-cache', core()->cacheVolume('zizmor'))
             ->withWorkdir('/app')
         ;
 
