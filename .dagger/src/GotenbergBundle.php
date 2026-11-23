@@ -29,6 +29,7 @@ use function Dagger\core;
 class GotenbergBundle
 {
     private const DEFAULT_GOTENBERG_VERSION = '8.0';
+    private const COMPOSER_HOME = '/root/.composer';
 
     private Directory $source;
     private Directory $github;
@@ -67,11 +68,11 @@ class GotenbergBundle
 
         $composerCache = core()->cacheVolume('composer-cache');
 
-        $phpContainer = core()
+        return core()
             ->container()
             ->from("php:{$phpVersion}")
             ->withMountedCache('/var/cache/apt/archives', $aptCache)
-            ->withMountedCache('/root/.composer/cache/files', $composerCache)
+            ->withMountedCache(self::COMPOSER_HOME.'/cache/files', $composerCache)
             ->withExec(['apt', 'update'])
             ->withExec(['apt', 'install', '--yes',
                 'git',
@@ -82,18 +83,10 @@ class GotenbergBundle
             ->withExec(['sh', '-c', 'php -m | grep -qx mbstring || docker-php-ext-install -j"$(nproc)" mbstring'])
             ->withMountedFile('/usr/bin/composer', $composerBin)
             ->withEnvVariable('COMPOSER_ALLOW_SUPERUSER', '1')
+            ->withEnvVariable('COMPOSER_HOME', self::COMPOSER_HOME)
+            ->withEnvVariable('PATH', '${PATH}:'.self::COMPOSER_HOME.'/vendor/bin', expand: true)
             ->withWorkdir('/GotenbergBundle')
             ->withMountedDirectory('/GotenbergBundle', $source)
-        ;
-
-        $globalDataDir = trim($phpContainer->withExec(['composer', 'global', 'config', 'data-dir'])->stdout());
-        $globalBinDir = trim($phpContainer->withExec(['composer', 'global', 'config', 'bin-dir'])->stdout());
-
-        return $phpContainer
-            ->withEnvVariable(
-                'PATH',
-                "{$phpContainer->envVariable('PATH')}:{$globalDataDir}/{$globalBinDir}",
-            )
         ;
     }
 
