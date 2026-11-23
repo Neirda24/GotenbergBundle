@@ -6,7 +6,6 @@ namespace DaggerModule;
 
 use Dagger\Attribute\DaggerFunction;
 use Dagger\Attribute\DaggerObject;
-use Dagger\Attribute\DefaultPath;
 use Dagger\Attribute\Doc;
 use Dagger\Changeset;
 use Dagger\Directory;
@@ -24,7 +23,6 @@ final class CiGotenbergBundle
     private Directory $app;
 
     public function __construct(
-        #[DefaultPath('/.github/')]
         Directory $source,
 
         Secret|null $ghAuthToken = null,

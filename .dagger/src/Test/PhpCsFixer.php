@@ -6,7 +6,6 @@ namespace DaggerModule\Test;
 
 use Dagger\Attribute\DaggerFunction;
 use Dagger\Attribute\DaggerObject;
-use Dagger\Attribute\DefaultPath;
 use Dagger\Attribute\Doc;
 use Dagger\Changeset;
 use Dagger\Container;
@@ -20,7 +19,6 @@ final class PhpCsFixer
     private Container $symfonyContainer;
 
     public function __construct(
-        #[DefaultPath('/')]
         private Directory $source,
         Container $symfonyContainer,
     ) {

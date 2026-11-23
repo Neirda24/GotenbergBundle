@@ -26,13 +26,14 @@ sources (URLs, HTML, Markdown, Office documents, etc.).
 ## Testing instructions with dagger (recommended)
 
 - Use [dagger v1.0.0-beta.28](https://docs.dagger.io/install)
-- Run `dagger generate` after changing the module in `.dagger/src`.
+- Run `dagger check` to run every check (PHPStan, PHPUnit, dependencies, coding
+style, documentation, workflows) with the default symfony / php versions.
+- Run `dagger generate -y` to fix the coding style and generate the auto API
+documentation for builders. Run it too after changing the module in `.dagger/src`.
 - Run `dagger call test --symfony-version '6.4.*' --php-version '8.2' phpunit`
 for 'unit' test suite with specific symfony or / and php version.
 - Run `dagger call test --symfony-version '6.4.*' --php-version '8.2' validate-dependencies`
 to make sure all dependencies are explicitly added to composer.json.
-- Run `dagger call --auto-apply generate-docs` to generate the auto API
-documentation for builders
 - Run `dagger call test --symfony-version '6.4.*' --php-version '8.2' all` to
 test with specific symfony / php versions
 - Run `dagger call tests-matrix` to test with all supported version of both PHP
@@ -43,5 +44,4 @@ test with specific symfony / php versions
 
 - Use English in code, comments, commit messages and branch names.
 - Code must be compatible with Symfony 6.4 and 7.x versions.
-- Always run `php ./docs/generate.php` before committing.
-- Always run `dagger call test all` before committing.
+- Always run `dagger generate -y` then `dagger check` before committing.

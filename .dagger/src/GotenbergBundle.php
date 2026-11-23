@@ -6,17 +6,19 @@ namespace DaggerModule;
 
 use Composer\Semver\Semver;
 use Composer\Semver\VersionParser;
+use Dagger\Attribute\Check;
 use Dagger\Attribute\DaggerFunction;
 use Dagger\Attribute\DaggerObject;
-use Dagger\Attribute\DefaultPath;
 use Dagger\Attribute\Doc;
-use Dagger\Attribute\Ignore;
+use Dagger\Attribute\Generate;
 use Dagger\Attribute\ReturnsListOfType;
+use Dagger\Attribute\Up;
 use Dagger\Changeset;
 use Dagger\Container;
 use Dagger\Directory;
 use Dagger\Secret;
 use Dagger\Service;
+use Dagger\Workspace;
 use DaggerModule\Test\PhpCsFixer;
 use function Amp\async;
 use function Amp\Future\await;
@@ -27,6 +29,16 @@ use function Dagger\core;
 class GotenbergBundle
 {
     private const DEFAULT_GOTENBERG_VERSION = '8.0';
+
+    private Directory $source;
+    private Directory $github;
+
+    #[DaggerFunction]
+    public function __construct(Workspace $ws)
+    {
+        $this->source = $ws->directory('/', exclude: ['.git', '.github', '.dagger/sdk', 'dagger.lock'], gitignore: true);
+        $this->github = $ws->directory('/.github');
+    }
 
     private function gotenbergContainer(
         string $gotenbergVersion = self::DEFAULT_GOTENBERG_VERSION,
@@ -124,12 +136,12 @@ class GotenbergBundle
      *
      * @return list<array{name: string, symfony-version: string, php: string, minimum-stability: string, allow-failure: bool}>
      */
-    private function getMatrix(Directory $source): array
+    private function getMatrix(): array
     {
         $symfony = $this->fetchJson('https://symfony.com/releases.json');
 
         // e.g. ">=8.1" in composer.json and ["8.2", ..., "8.5"] on php.net give 8.1 to 8.5.
-        $composerPhpConstraint = json_decode($source->file('composer.json')->contents(), associative: true)['require']['php'];
+        $composerPhpConstraint = json_decode($this->source->file('composer.json')->contents(), associative: true)['require']['php'];
         // ">=8.1" -> "8.1.0.0" -> "8.1"
         preg_match('#^\d+\.\d+#', (new VersionParser())->parseConstraints($composerPhpConstraint)->getLowerBound()->getVersion(), $minPhpVersion);
         $phpVersions = [$minPhpVersion[0]];
@@ -230,86 +242,97 @@ class GotenbergBundle
 
     #[DaggerFunction]
     #[Doc('Output the test matrix (maintained Symfony versions x supported PHP versions) as JSON.')]
-    public function matrix(
-        #[DefaultPath('/')]
-        #[Ignore(
-            './.github/',
-            './.phpunit.cache/',
-            './.coverage/',
-            './var/',
-            './vendor/',
-        )]
-        Directory $source,
-    ): string {
-        return json_encode($this->getMatrix($source), \JSON_THROW_ON_ERROR);
+    public function matrix(): string
+    {
+        return json_encode($this->getMatrix(), \JSON_THROW_ON_ERROR);
     }
 
     #[DaggerFunction]
+    #[Check]
+    #[Doc('Static analysis with PHPStan, on the default PHP and Symfony versions.')]
+    public function phpstan(): void
+    {
+        $this->test()->phpstan();
+    }
+
+    #[DaggerFunction]
+    #[Check]
+    #[Doc('PHPUnit test suite, on the default PHP and Symfony versions.')]
+    public function phpunit(): void
+    {
+        $this->test()->phpunit();
+    }
+
+    #[DaggerFunction]
+    #[Check]
+    #[Doc('Every dependency the code uses is declared in composer.json.')]
+    public function dependencies(): void
+    {
+        $this->test()->validateDependencies();
+    }
+
+    #[DaggerFunction]
+    #[Check]
+    #[Doc('Audit of the GitHub workflows with zizmor.')]
+    public function zizmor(): void
+    {
+        $this->ci()->zizmor()->check()->sync();
+    }
+
+    #[DaggerFunction]
+    #[Generate]
     #[Doc('Generates documentation and returns the ChangeSet to apply locally.')]
     public function generateDocs(
-        #[DefaultPath('/')]
-        #[Ignore(
-            './.github/',
-            './.phpunit.cache/',
-            './.coverage/',
-            './var/',
-            './vendor/',
-        )]
-        Directory $source,
         Container|null $symfonyContainer = null,
     ): Changeset {
-        $symfonyContainer ??= $this->symfonyContainer($source);
+        $symfonyContainer ??= $this->symfonyContainer($this->source);
 
         $generatedDocs = core()->directory()->withDirectory('./docs', $symfonyContainer
             ->withExec(['./docs/generate.php'])
             ->directory('./docs'),
         );
 
-        return $generatedDocs->changes(core()->directory()->withDirectory('./docs', $source->directory('./docs')));
+        return $generatedDocs->changes(core()->directory()->withDirectory('./docs', $this->source->directory('./docs')));
+    }
+
+    #[DaggerFunction]
+    #[Generate]
+    #[Doc('Fix the coding style with php-cs-fixer.')]
+    public function codingStyle(): Changeset
+    {
+        return $this->phpCsFixer()->fix();
+    }
+
+    #[DaggerFunction]
+    #[Up]
+    #[Doc('A Gotenberg server on port 3000.')]
+    public function gotenberg(
+        string $gotenbergVersion = self::DEFAULT_GOTENBERG_VERSION,
+    ): Service {
+        return $this->gotenbergService($gotenbergVersion);
     }
 
     #[DaggerFunction]
     #[Doc('Run php-cs-fixer. Returns the Directory diff.')]
     public function phpCsFixer(
-        #[DefaultPath('/')]
-        #[Ignore(
-            './.github/',
-            './.phpunit.cache/',
-            './.coverage/',
-            './var/',
-            './vendor/',
-        )]
-        Directory $source,
         Container|null $symfonyContainer = null,
     ): PhpCsFixer {
-        $symfonyContainer ??= $this->symfonyContainer($source);
+        $symfonyContainer ??= $this->symfonyContainer($this->source);
 
-        return new PhpCsFixer($source, $symfonyContainer);
+        return new PhpCsFixer($this->source, $symfonyContainer);
     }
 
     #[DaggerFunction]
     #[Doc('Provide a container with all dependencies installed and ready to run tests.')]
     public function ci(
-        #[DefaultPath('/.github/')]
-        Directory $source,
-
         Secret|null $ghAuthToken = null,
     ): CiGotenbergBundle {
-        return new CiGotenbergBundle($source, $ghAuthToken);
+        return new CiGotenbergBundle($this->github, $ghAuthToken);
     }
 
     #[DaggerFunction]
     #[Doc('Provide a container with all dependencies installed and ready to run tests.')]
     public function test(
-        #[DefaultPath('/')]
-        #[Ignore(
-            './.github/',
-            './.phpunit.cache/',
-            './.coverage/',
-            './var/',
-            './vendor/',
-        )]
-        Directory $source,
         #[Doc('Defaults to the minimum PHP version of the latest stable Symfony version.')]
         string|null $phpVersion = null,
         #[Doc('Defaults to the latest stable Symfony version.')]
@@ -317,7 +340,7 @@ class GotenbergBundle
         string $minimumStability = 'stable',
         Container|null $symfonyContainer = null,
     ): TestsGotenbergBundle {
-        $symfonyContainer ??= $this->symfonyContainer($source, $phpVersion, $symfonyVersion, $minimumStability);
+        $symfonyContainer ??= $this->symfonyContainer($this->source, $phpVersion, $symfonyVersion, $minimumStability);
 
         return new TestsGotenbergBundle($symfonyContainer);
     }
@@ -325,21 +348,12 @@ class GotenbergBundle
     #[DaggerFunction]
     #[Doc('Execute all tests within matrix (PHP version, Symfony version).')]
     #[ReturnsListOfType(TestsGotenbergBundle::class)]
-    public function testsMatrix(
-        #[DefaultPath('/')]
-        #[Ignore(
-            './.github/',
-            './.phpunit.cache/',
-            './.coverage/',
-            './var/',
-            './vendor/',
-        )]
-        Directory $source,
-    ): array {
+    public function testsMatrix(): array
+    {
         $tests = [];
 
-        foreach ($this->getMatrix($source) as $row) {
-            $tests[] = async(fn () => $this->test($source, $row['php'], $row['symfony-version'], $row['minimum-stability']));
+        foreach ($this->getMatrix() as $row) {
+            $tests[] = async(fn () => $this->test($row['php'], $row['symfony-version'], $row['minimum-stability']));
         }
 
         $result = [];

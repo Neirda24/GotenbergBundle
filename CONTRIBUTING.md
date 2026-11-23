@@ -54,17 +54,24 @@ $ dagger generate
 #### Run Tests
 
 ```shell
+$ # Run every check (PHPStan, PHPUnit, dependencies, coding style, documentation, workflows) with the default symfony / php versions
+$ dagger check
+
+$ # List the checks, then run a single one
+$ dagger check -l
+$ dagger check --check phpstan
+
+$ # Apply coding style fixes and generate the auto documentation for builders
+$ dagger generate
+
+$ # Start a Gotenberg server on http://localhost:3000
+$ dagger up
+
 $ # Run the PHPUnit 'unit' test suite with specific symfony or / and php version
 $ dagger --progress=logs call test --symfony-version='6.4.*' --php-version='8.2' phpunit
 
 $ # Make sure all dependencies are explicitly added to composer.json
 $ dagger --progress=logs call test --symfony-version='6.4.*' --php-version='8.2' validate-dependencies
-
-$ # Generate the auto documentation for builders
-$ dagger call generate-docs
-
-$ # Apply coding style fixes
-$ dagger call php-cs-fixer fix
 
 $ # Run all tests available with specific symfony / php versions
 $ dagger --progress=logs call test --symfony-version='6.4.*' --php-version='8.2' all
