@@ -96,6 +96,10 @@ type ModuleTypes {
             .withArg("symfonyContainer", typeDef.withOptional(true).withObject("Container"))
         )
         .withFunction(
+          function("phpunitMatrix", typeDef.withKind(TypeDefKind.STRING_KIND))
+            .withDescription("Run phpunit on every row of the matrix, in parallel in one engine. Returns a Markdown report.")
+        )
+        .withFunction(
           function("testsMatrix", typeDef.withListOf(typeDef.withObject("TestsGotenbergBundle")))
             .withDescription("Execute all tests within matrix (PHP version, Symfony version).")
         )
