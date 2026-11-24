@@ -339,6 +339,67 @@ class GotenbergBundle
     }
 
     #[DaggerFunction]
+    #[Doc('Run phpunit on every row of the matrix, in parallel in one engine. Returns a Markdown report.')]
+    public function phpunitMatrix(): string
+    {
+        $matrix = $this->getMatrix();
+
+        $results = [];
+        $errors = [];
+        $all = core()->directory();
+        foreach ($matrix as $index => $row) {
+            try {
+                $results[$index] = $this->test($row['php'], $row['symfony-version'], $row['minimum-stability'])->phpunitResult();
+                $all = $all->withDirectory((string) $index, $results[$index]);
+            } catch (\Throwable $exception) {
+                $errors[$index] = $exception->getMessage();
+            }
+        }
+
+        try {
+            // One call for all the rows: the engine runs them in parallel.
+            $all->sync();
+        } catch (\Throwable) {
+            // A row that fails before phpunit starts is reported below, when its own result is read.
+        }
+
+        $report = ['| Row | Result | PHPUnit |', '| --- | --- | --- |'];
+        $outputs = [];
+        $failed = false;
+
+        foreach ($matrix as $index => $row) {
+            $exitCode = 1;
+            $output = $errors[$index] ?? '';
+            if (!isset($errors[$index])) {
+                try {
+                    $output = $results[$index]->file('output')->contents();
+                    $exitCode = (int) trim($results[$index]->file('exit-code')->contents());
+                } catch (\Throwable $exception) {
+                    $output = $exception->getMessage();
+                }
+            }
+
+            $result = '✅ passed';
+            if (0 !== $exitCode) {
+                $result = $row['allow-failure'] ? '⚠️ failed (allowed)' : '❌ failed';
+                $failed = $failed || !$row['allow-failure'];
+                $outputs[] = "\n### {$row['name']}\n\n```\n{$output}\n```";
+            }
+
+            $summary = 1 === preg_match('#^(OK \(.+\)|Tests: .+)$#m', $output, $matches) ? $matches[1] : '';
+            $report[] = "| {$row['name']} | {$result} | {$summary} |";
+        }
+
+        $report = implode("\n", [...$report, ...$outputs]);
+
+        if ($failed) {
+            throw new \RuntimeException("Some rows of the matrix failed.\n\n{$report}");
+        }
+
+        return $report;
+    }
+
+    #[DaggerFunction]
     #[Doc('Execute all tests within matrix (PHP version, Symfony version).')]
     #[ReturnsListOfType(TestsGotenbergBundle::class)]
     public function testsMatrix(): array

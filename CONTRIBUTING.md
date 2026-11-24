@@ -82,6 +82,9 @@ $ dagger --progress=logs call test --symfony-version='8.2.*' --minimum-stability
 $ # Show the matrix: maintained Symfony versions (symfony.com) x supported PHP versions (composer.json and php.net)
 $ dagger call matrix
 
+$ # Run the PHPUnit test suite with all supported version of both PHP and Symfony, as the CI does
+$ dagger call phpunit-matrix
+
 $ # Run all tests available with all supported version of both PHP and Symfony
 $ dagger --progress=logs call tests-matrix all
 ```

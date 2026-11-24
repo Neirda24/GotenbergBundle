@@ -9,6 +9,7 @@ use Dagger\Attribute\DaggerObject;
 use Dagger\Attribute\Doc;
 use Dagger\Attribute\ReturnsListOfType;
 use Dagger\Container;
+use Dagger\Directory;
 use function Amp\async;
 use function Amp\Future\await;
 
@@ -101,6 +102,15 @@ final class TestsGotenbergBundle
         return $this->symfonyContainer
             ->withExec($exec)
             ->stdout()
+        ;
+    }
+
+    /** Runs phpunit without failing: its output and exit code go to the "output" and "exit-code" files. */
+    public function phpunitResult(): Directory
+    {
+        return $this->symfonyContainer
+            ->withExec(['sh', '-c', 'mkdir /result && ./vendor/bin/phpunit --display-all-issues > /result/output 2>&1; echo $? > /result/exit-code'])
+            ->directory('/result')
         ;
     }
 
